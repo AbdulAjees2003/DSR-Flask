@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- <script src="accessControl.js"></script> -->
+    <meta charset="UTF-8">
+    <title>Sea Shipment DSR Form</title>
+    <link rel="icon" href="{{ url_for('static',filename='images/Favicon.png')}}" type="image/x-icon">
+    <!-- Bootstrap Design -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <!-- Bootstrap Icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        /* Custom Styles */
+        .container {
+            margin-top: 20px;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        .card-header {
+            cursor: pointer;
+        }
+        .card-body{
+            background-color: #ff5858;
+        }
+        /* Highlight for "Sea Shipment Form" */
+        h1 {
+            text-align: center;
+            background-color: #ff0000;
+            color: white;
+            padding: 10px;
+            font-size: 24px;
+        }
+        /* Differentiate Section Headers */
+        .section-header {
+            background-color: rgb(105, 165, 255);
+            color:white;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 20px; /* Updated font size */
+            font-weight: bold; /* Added font-weight */
+        }
+        /* Differentiate Form Labels */
+        .form-label {
+            font-weight: bold;
+            font-size: 16px; /* Updated font size */
+        }
+        /* input[type="number"]{
+            -moz-appearance: textfield;
+        } */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button{
+            -webkit-appearance: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Logo -->
+    <header>
+        <img src="{{ url_for('static',filename='images/Logo.png')}}" alt="Company Logo" width="250">
+        <div class="float-right mt-3 mr-3">
+            <a href="{{ url_for('main_bp.dsrseainfo') }}" class="btn btn-success">Retrieve Sea Form Data</a>
+            <a class="btn btn-danger" href="{{ url_for('main_bp.logout') }}" onclick="return confirm('Time to say goodbye? Confirm your logout!')" title="logout" role="button"><i class="bi bi-box-arrow-left"></i></a>
+        </div>
+    </header>
+    <h1>SEA SHIPMENT DSR FORM</h1>
+    <main class="container">
+        <div class="progress sticky-top">
+            <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}   
+                {% for message in messages %}
+                <div class="alert alert-success alert-dismissable" role="alert">
+                    {{message}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <form id="myForm" action="{{ url_for('main_bp.sea') }}" method="POST">
+            <section>
+            <!-- Basic Information -->
+            <div class="card">
+                <div class="section-header" data-toggle="collapse" data-target="#basicInfo">
+                    BASIC INFORMATION
+                </div>
+                <div class="card-body collapse" id="basicInfo">
+                    <!-- <div class="form-group">
+                        <label class="form-label" for="sno">SNO</label>
+                        <input type="number" class="form-control" name="sno" id="sno" required>
+                    </div> -->
+                    <div class="form-group">
+                        <label class="form-label" for="tsvbookingno">TSV BOOKING NO</label>
+                        <input type="text" class="form-control" name="tsvbookingno" id="tsvbookingno" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="ponumber">PO NUMBER</label>
+                        <input type="text" class="form-control" name="ponumber" id="ponumber" required>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section>
+            <!-- Supplier and Consignee -->
+            <div class="card">
+                <div class="section-header" data-toggle="collapse" data-target="#supplierConsignee">
+                    SUPPLIER AND CONSIGNEE
+                </div>
+                <div class="card-body collapse" id="supplierConsignee">
+                    <div class="form-group">
+                        <label class="form-label" for="suppliername">SUPPLIER NAME</label>
+                        <!-- <input type="text" class="form-control" id="suppliername" > -->
+                        <select class="form-control" name="suppliername" id="suppliername" required>
+                            <option value="">SELECT</option>
+                            <option value="7R LOGIWISE FREIGHT SOLUTIONS PRIVATE LIMITED">7R LOGIWISE FREIGHT SOLUTIONS PRIVATE LIMITED</option>
+                            <option value="ALLIED TRADE S.A.">ALLIED TRADE S.A.</option>
+                            <option value="AMARA RAJA BATTERIES LIMITED">AMARA RAJA BATTERIES LIMITED</option>
+                            <option value="AMARA RAJA ELECTRONICS LIMITED">AMARA RAJA ELECTRONICS LIMITED</option>
+                            <option value="ANGEL RESINS">ANGEL RESINS</option>
+                            <option value="AMARA RAJA ADVANCED CELL TECHNOLOGIES PRIVATE LIMITED">AMARA RAJA ADVANCED CELL TECHNOLOGIES PRIVATE LIMITED</option>
+                            <option value="BHARAT MEDICAL SYSTEMS">BHARAT MEDICAL SYSTEMS</option>
+                            <option value="BOLDROCCHI INDIA PRIVATE LIMITED">BOLDROCCHI INDIA PRIVATE LIMITED</option>
+                            <option value="CCD TECHNICAL SOLUTIONS PVT LTD">CCD TECHNICAL SOLUTIONS PVT LTD</option>
+                            <option value="DURAL TRIMS AND PROFILES PRIVATE LIMITED">DURAL TRIMS AND PROFILES PRIVATE LIMITED</option>
+                            <option value="ECOSTER RECYCLING SYSYTEM">ECOSTER RECYCLING SYSYTEM</option>
+                            <option value="EVO MARITIME SERVICES LTD">EVO MARITIME SERVICES LTD</option>
+                            <option value="EXIDE INDUSTRIES LIMITED">EXIDE INDUSTRIES LIMITED</option>
+                            <option value="FA INTERNATIONAL LOGISTICS">FA INTERNATIONAL LOGISTICS</option>
+                            <option value="FLEXIBLE STEEL LACING COMPANY PVT LTD">FLEXIBLE STEEL LACING COMPANY PVT LTD</option>
+                            <option value="FRAUSHER SENSOR TECHNOLOGY INDIA">FRAUSHER SENSOR TECHNOLOGY INDIA</option>
+                            <option value="GREENVISION TECHNOLOGIES PVT LTD">GREENVISION TECHNOLOGIES PVT LTD</option>
+                            <option value="HEURTEY PETROCHEM INDIA LTD">HEURTEY PETROCHEM INDIA LTD</option>
+                            <option value="INDUS PROTECH SOLUTIONS LIMITED">INDUS PROTECH SOLUTIONS LIMITED</option>
+                            <option value="INDUS PROTECH SOLUTIONS PVT LTD">INDUS PROTECH SOLUTIONS PVT LTD</option>
+                            <option value="INDUTCH COMPOSITES TECHNOLOGY PVT LTD">INDUTCH COMPOSITES TECHNOLOGY PVT LTD</option>
+                            <option value="ITC LIMITED - EDUCATION AND STATIONERY PRODUCTS BUSINESS">ITC LIMITED - EDUCATION AND STATIONERY PRODUCTS BUSINESS</option>
+                            <option value="JPC TRADING FZCO">JPC TRADING FZCO</option>
+                            <!-- <option value="krishna enterprises">krishna enterprises</option> -->
+                            <option value="KRISHNA ENTERPRISES.">KRISHNA ENTERPRISES</option>
+                            <option value="MANGAL INDUSTRIES LIMITED AUTO BATTERY COMPONENTS -ARGCI">MANGAL INDUSTRIES LIMITED AUTO BATTERY COMPONENTS -ARGCI</option>
+                            <option value="MANGAL INDUSTRIES LIMITED AUTO BATTERY COMPONENTS ARGCI">MANGAL INDUSTRIES LIMITED AUTO BATTERY COMPONENTS ARGCI</option>
+                            <option value="MANGAL INDUSTRIES LIMITED STORAGE SOLUTIONS">MANGAL INDUSTRIES LIMITED STORAGE SOLUTIONS</option>
+                            <option value="MANGAL INDUSTRIES LIMITED">MANGAL INDUSTRIES LIMITED</option>
+                            <option value="MANGAL INDUSTRIES LTD">MANGAL INDUSTRIES LTD</option>
+                            <option value="MEDGAS N EQUIPMENT">MEDGAS N EQUIPMENT</option>
+                            <option value="MHT FORWADING UK">MHT FORWADING UK</option>
+                            <option value="MP CONSOL INDIA PVT LTD">MP CONSOL INDIA PVT LTD</option>
+                            <option value="MSN EXPORTS">MSN EXPORTS</option>
+                            <option value="NURTURE INDIA HANDICRAFT LLP">NURTURE INDIA HANDICRAFT LLP</option>
+                            <option value="PRIME INDUSTRIES">PRIME INDUSTRIES</option>
+                            <option value="PUMPSENSE FLUID ENGINEERING PVT LTD">PUMPSENSE FLUID ENGINEERING PVT LTD</option>
+                            <option value="RAMCO INDUSTRIES (LIMITED)">RAMCO INDUSTRIES (LIMITED)</option>
+                            <option value="RAMCO INDUSTRIES LIMITED">RAMCO INDUSTRIES LIMITED</option>
+                            <option value="REVIVE UNITRADE SOLUTIONS">REVIVE UNITRADE SOLUTIONS</option>
+                            <option value="RNGALLA FAMILY PRIVATE LIMITED">RNGALLA FAMILY PRIVATE LIMITED</option>
+                            <option value="ROTAREX ENGINEERING PVT LTD">ROTAREX ENGINEERING PVT LTD</option>
+                            <option value="ROTARY MASTER MANUFACTURING PVT LTD">ROTARY MASTER MANUFACTURING PVT LTD</option>
+                            <option value="ROTE">ROTE</option>
+                            <option value="S.J.SPARE PARTS">S.J.SPARE PARTS</option>
+                            <option value="SHAYA POLYMERS PVT LTD">SHAYA POLYMERS PVT LTD</option>
+                            <option value="SHUBHA IMPEX">SHUBHA IMPEX</option>
+                            <option value="SINTECH PRECISION PRODUCTSLIMITED">SINTECH PRECISION PRODUCTSLIMITED</option>
+                            <option value="SKIPPER LIMITED">SKIPPER LIMITED</option>
+                            <option value="SPIRE TRADE & ECOMMERCE">SPIRE TRADE & ECOMMERCE</option>
+                            <option value="STENFY CHEM">STENFY CHEM</option>
+                            <option value="SVS SHIPPING SERVICES LTD">SVS SHIPPING SERVICES LTD</option>
+                            <option value="TAQA NEYVELI POWER COMPANY PVT LTD">TAQA NEYVELI POWER COMPANY PVT LTD</option>
+                            <option value="THE EIMCO KCP LTD">THE EIMCO KCP LTD</option>
+                            <option value="TI ANODE FABRICATORS PVT LTD">TI ANODE FABRICATORS PVT LTD</option>
+                            <option value="TRI STAR BUSINESS SOLUTION">TRI STAR BUSINESS SOLUTION</option>
+                            <option value="TRIDENT LIFELINE LIMITED">TRIDENT LIFELINE LIMITED</option>
+                            <option value="TSM PROJECT LOGISTICS PVT LTD">TSM PROJECT LOGISTICS PVT LTD</option>
+                            <option value="VANS CHEMISTRY PVT LTD">VANS CHEMISTRY PVT LTD</option>
+                            <option value="VC EWASTE ENG PVT LTD">VC EWASTE ENG PVT LTD</option>
+                            <option value="XXX XXX">XXX XXX</option>
+                            <option value="ZAHA GENERAL TRADING LLC">ZAHA GENERAL TRADING LLC</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="consignee">CONSIGNEE NAME</label>
+                        <!-- <input type="text" class="form-control" id="consignee"> -->
+                        <select class="form-control" name="consignee" id="consignee" required>
+                            <option value="">SELECT</option>
+                            <option value="7R LOGIWISE FREIGHT SOLUTIONS PRIVATE LIMITED">7R LOGIWISE FREIGHT SOLUTIONS PRIVATE LIMITED</option>
+                            <option value="ALLIED TRADE S.A.">ALLIED TRADE S.A.</option>
+                            <option value="AMARA RAJA BATTERIES LIMITED">AMARA RAJA BATTERIES LIMITED</option>
+                            <option value="AMARA RAJA ELECTRONICS LIMITED">AMARA RAJA ELECTRONICS LIMITED</option>
+                            <option value="ANGEL RESINS">ANGEL RESINS</option>
+                            <option value="AMARA RAJA ADVANCED CELL TECHNOLOGIES PRIVATE LIMITED">AMARA RAJA ADVANCED CELL TECHNOLOGIES PRIVATE LIMITED</option>
+                            <option value="BHARAT MEDICAL SYSTEMS">BHARAT MEDICAL SYSTEMS</option>
+                            <option value="BOLDROCCHI INDIA PRIVATE LIMITED">BOLDROCCHI INDIA PRIVATE LIMITED</option>
+                            <option value="CCD TECHNICAL SOLUTIONS PVT LTD">CCD TECHNICAL SOLUTIONS PVT LTD</option>
+                            <option value="DURAL TRIMS AND PROFILES PRIVATE LIMITED">DURAL TRIMS AND PROFILES PRIVATE LIMITED</option>
+                            <option value="ECOSTER RECYCLING SYSYTEM">ECOSTER RECYCLING SYSYTEM</option>
+                            <option value="EVO MARITIME SERVICES LTD">EVO MARITIME SERVICES LTD</option>
+                            <option value="EXIDE INDUSTRIES LIMITED">EXIDE INDUSTRIES LIMITED</option>
+                            <option value="FA INTERNATIONAL LOGISTICS">FA INTERNATIONAL LOGISTICS</option>
+                            <option value="FLEXIBLE STEEL LACING COMPANY PVT LTD">FLEXIBLE STEEL LACING COMPANY PVT LTD</option>
+                            <option value="FRAUSHER SENSOR TECHNOLOGY INDIA">FRAUSHER SENSOR TECHNOLOGY INDIA</option>
+                            <option value="GREENVISION TECHNOLOGIES PVT LTD">GREENVISION TECHNOLOGIES PVT LTD</option>
+                            <option value="HEURTEY PETROCHEM INDIA LTD">HEURTEY PETROCHEM INDIA LTD</option>
+                            <option value="INDUS PROTECH SOLUTIONS LIMITED">INDUS PROTECH SOLUTIONS LIMITED</option>
+                            <option value="INDUS PROTECH SOLUTIONS PVT LTD">INDUS PROTECH SOLUTIONS PVT LTD</option>
+                            <option value="INDUTCH COMPOSITES TECHNOLOGY PVT LTD">INDUTCH COMPOSITES TECHNOLOGY PVT LTD</option>
+                            <option value="ITC LIMITED - EDUCATION AND STATIONERY PRODUCTS BUSINESS">ITC LIMITED - EDUCATION AND STATIONERY PRODUCTS BUSINESS</option>
+                            <option value="JPC TRADING FZCO">JPC TRADING FZCO</option>
+                            <!-- <option value="krishna enterprises">krishna enterprises</option> -->
+                            <option value="KRISHNA ENTERPRISES.">KRISHNA ENTERPRISES</option>
+                            <option value="MANGAL INDUSTRIES LIMITED AUTO BATTERY COMPONENTS -ARGCI">MANGAL INDUSTRIES LIMITED AUTO BATTERY COMPONENTS -ARGCI</option>
+                            <option value="MANGAL INDUSTRIES LIMITED AUTO BATTERY COMPONENTS ARGCI">MANGAL INDUSTRIES LIMITED AUTO BATTERY COMPONENTS ARGCI</option>
+                            <option value="MANGAL INDUSTRIES LIMITED STORAGE SOLUTIONS">MANGAL INDUSTRIES LIMITED STORAGE SOLUTIONS</option>
+                            <option value="MANGAL INDUSTRIES LIMITED">MANGAL INDUSTRIES LIMITED</option>
+                            <option value="MANGAL INDUSTRIES LTD">MANGAL INDUSTRIES LTD</option>
+                            <option value="MEDGAS N EQUIPMENT">MEDGAS N EQUIPMENT</option>
+                            <option value="MHT FORWADING UK">MHT FORWADING UK</option>
+                            <option value="MP CONSOL INDIA PVT LTD">MP CONSOL INDIA PVT LTD</option>
+                            <option value="MSN EXPORTS">MSN EXPORTS</option>
+                            <option value="NURTURE INDIA HANDICRAFT LLP">NURTURE INDIA HANDICRAFT LLP</option>
+                            <option value="PRIME INDUSTRIES">PRIME INDUSTRIES</option>
+                            <option value="PUMPSENSE FLUID ENGINEERING PVT LTD">PUMPSENSE FLUID ENGINEERING PVT LTD</option>
+                            <option value="RAMCO INDUSTRIES (LIMITED)">RAMCO INDUSTRIES (LIMITED)</option>
+                            <option value="RAMCO INDUSTRIES LIMITED">RAMCO INDUSTRIES LIMITED</option>
+                            <option value="REVIVE UNITRADE SOLUTIONS">REVIVE UNITRADE SOLUTIONS</option>
+                            <option value="RNGALLA FAMILY PRIVATE LIMITED">RNGALLA FAMILY PRIVATE LIMITED</option>
+                            <option value="ROTAREX ENGINEERING PVT LTD">ROTAREX ENGINEERING PVT LTD</option>
+                            <option value="ROTARY MASTER MANUFACTURING PVT LTD">ROTARY MASTER MANUFACTURING PVT LTD</option>
+                            <option value="ROTE">ROTE</option>
+                            <option value="S.J.SPARE PARTS">S.J.SPARE PARTS</option>
+                            <option value="SHAYA POLYMERS PVT LTD">SHAYA POLYMERS PVT LTD</option>
+                            <option value="SHUBHA IMPEX">SHUBHA IMPEX</option>
+                            <option value="SINTECH PRECISION PRODUCTSLIMITED">SINTECH PRECISION PRODUCTSLIMITED</option>
+                            <option value="SKIPPER LIMITED">SKIPPER LIMITED</option>
+                            <option value="SPIRE TRADE & ECOMMERCE">SPIRE TRADE & ECOMMERCE</option>
+                            <option value="STENFY CHEM">STENFY CHEM</option>
+                            <option value="SVS SHIPPING SERVICES LTD">SVS SHIPPING SERVICES LTD</option>
+                            <option value="TAQA NEYVELI POWER COMPANY PVT LTD">TAQA NEYVELI POWER COMPANY PVT LTD</option>
+                            <option value="THE EIMCO KCP LTD">THE EIMCO KCP LTD</option>
+                            <option value="TI ANODE FABRICATORS PVT LTD">TI ANODE FABRICATORS PVT LTD</option>
+                            <option value="TRI STAR BUSINESS SOLUTION">TRI STAR BUSINESS SOLUTION</option>
+                            <option value="TRIDENT LIFELINE LIMITED">TRIDENT LIFELINE LIMITED</option>
+                            <option value="TSM PROJECT LOGISTICS PVT LTD">TSM PROJECT LOGISTICS PVT LTD</option>
+                            <option value="VANS CHEMISTRY PVT LTD">VANS CHEMISTRY PVT LTD</option>
+                            <option value="VC EWASTE ENG PVT LTD">VC EWASTE ENG PVT LTD</option>
+                            <option value="XXX XXX">XXX XXX</option>
+                            <option value="ZAHA GENERAL TRADING LLC">ZAHA GENERAL TRADING LLC</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+    <section>
+            <!-- Dates -->
+            <div class="card">
+                <div class="section-header" data-toggle="collapse" data-target="#dates">
+                    DATES
+                </div>
+                <div class="card-body collapse" id="dates">
+                    <!-- Add more date fields here -->
+                    <div class="form-group">
+                        <label class="form-label" for="materialpickupdate">MATERIAL PICKUP DATE AS PER CUSTOMER</label>
+                        <input type="date" class="form-control" name="materialpickupdate" id="materialpickupdate" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="actualpickupdate">ACTUAL PICKUP DATE</label>
+                        <input type="date" class="form-control" name="actualpickupdate" id="actualpickupdate" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="etdcustomer">ETD AS PER CUSTOMER</label>
+                        <input type="date" class="form-control" name="etdcustomer" id="etdcustomer" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="actualetd">ACTUAL ETD</label>
+                        <input type="date" class="form-control" name="actualetd" id="actualetd" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="etacustomer">ETA AS PER CUSTOMER</label>
+                        <input type="date" class="form-control" name="etacustomer" id="etacustomer" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="actualeta">ACTUAL ETA</label>
+                        <input type="date" class="form-control" name="actualeta" id="actualeta" required>
+                    </div>
+                </div>
+            </div>
+        </section>
+    <section>
+            <!-- Origin and Loading -->
+            <div class="card">
+                <div class="section-header" data-toggle="collapse" data-target="#originLoading">
+                    ORIGIN / DESTINATION
+                </div>
+                <div class="card-body collapse" id="originLoading">
+                    <div class="form-group">
+                        <label class="form-label" for="countryoforigin">COUNTRY OF ORIGIN</label>
+                        <!-- <input type="text" class="form-control" id="countryoforigin"> -->
+                        <select class="form-control" title="country" name="countryoforigin" id="countryoforigin" onchange="updateOrigin()" required>
+                            <option value="">SELECT</option>
+                            <option value="AFGHANISTAN">AFGHANISTAN</option>
+                            <option value="ALBANIA">ALBANIA</option>
+                            <option value="ALGERIA">ALGERIA</option>
+                            <option value="AMERICAN SAMOA">AMERICAN SAMOA</option>
+                            <option value="ANDORRA">ANDORRA</option>
+                            <option value="ANGOLA">ANGOLA</option>
+                            <option value="ANGUILLA">ANGUILLA</option>
+                            <option value="ANTIGUA & BARBUDA">ANTIGUA & BARBUDA</option>
+                            <option value="ARGENTINA">ARGENTINA</option>
+                            <option value="ARMENIA">ARMENIA</option>
+                            <option value="ARUBA">ARUBA</option>
+                            <option value="AUSTRALIA">AUSTRALIA</option>
+                            <option value="AUSTRIA">AUSTRIA</option>
+                            <option value="AZERBAIJAN">AZERBAIJAN</option>
+                            <option value="BAHAMAS">BAHAMAS</option>
+                            <option value="BAHRAIN">BAHRAIN</option>
+                            <option value="BANGLADESH">BANGLADESH</option>
+                            <option value="BARBADOS">BARBADOS</option>
+                            <option value="BELARUS">BELARUS</option>
+                            <option value="BELGIUM">BELGIUM</option>
+                            <option value="BELIZE">BELIZE</option>
+                            <option value="BENIN">BENIN</option>
+                            <option value="BERMUDA">BERMUDA</option>
+                            <option value="BHUTAN">BHUTAN</option>
+                            <option value="BOLIVIA">BOLIVIA</option>
+                            <option value="BONAIRE">BONAIRE</option>
+                            <option value="BOSNIA & HERZEGOVINA">BOSNIA & HERZEGOVINA</option>
+                            <option value="BOTSWANA">BOTSWANA</option>
+                            <option value="BRAZIL">BRAZIL</option>
+                            <option value="BRITISH INDIAN OCEAN TER">BRITISH INDIAN OCEAN TER</option>
+                            <option value="BRUNEI">BRUNEI</option>
+                            <option value="BULGARIA">BULGARIA</option>
+                            <option value="BURKINA FASO">BURKINA FASO</option>
+                            <option value="BURUNDI">BURUNDI</option>
+                            <option value="CAMBODIA">CAMBODIA</option>
+                            <option value="CAMEROON">CAMEROON</option>
+                            <option value="CANADA">CANADA</option>
+                            <option value="CANARY ISLANDS">CANARY ISLANDS</option>
+                            <option value="CAPE VERDE">CAPE VERDE</option>
+                            <option value="CAYMAN ISLANDS">CAYMAN ISLANDS</option>
+                            <option value="CENTRAL AFRICAN REPUBLIC">CENTRAL AFRICAN REPUBLIC</option>
+                            <option value="CHAD">CHAD</option>
+                            <option value="CHANNEL ISLANDS">CHANNEL ISLANDS</option>
+                            <option value="CHILE">CHILE</option>
+                            <option value="CHINA">CHINA</option>
+                            <option value="CHRISTMAS ISLAND">CHRISTMAS ISLAND</option>
+                            <option value="COCOS ISLAND">COCOS ISLAND</option>
+                            <option value="COLOMBIA">COLOMBIA</option>
+                            <option value="COMOROS">COMOROS</option>
+                            <option value="CONGO">CONGO</option>
+                            <option value="COOK ISLANDS">COOK ISLANDS</option>
+                            <option value="COSTA RICA">COSTA RICA</option>
+                            <option value="COTE D'IVOIRE">COTE D'IVOIRE</option>
+                            <option value="CROATIA">CROATIA</option>
+                            <option value="CUBA">CUBA</option>
+                            <option value="CURACAO">CURACAO</option>
+                            <option value="CYPRUS">CYPRUS</option>
+                            <option value="CZECH REPUBLIC">CZECH REPUBLIC</option>
+                            <option value="DENMARK">DENMARK</option>
+                            <option value="DJIBOUTI">DJIBOUTI</option>
+                            <option value="DOMINICA">DOMINICA</option>
+                            <option value="DOMINICAN REPUBLIC">DOMINICAN REPUBLIC</option>
+                            <option value="EAST TIMOR">EAST TIMOR</option>
+                            <option value="ECUADOR">ECUADOR</option>
+                            <option value="EGYPT">EGYPT</option>
+                            <option value="EL SALVADOR">EL SALVADOR</option>
+                            <option value="EQUATORIAL GUINEA">EQUATORIAL GUINEA</option>
+                            <option value="ERITREA">ERITREA</option>
+                            <option value="ESTONIA">ESTONIA</option>
+                            <option value="ETHIOPIA">ETHIOPIA</option>
+                            <option value="FALKLAND ISLANDS">FALKLAND ISLANDS</option>
+                            <option value="FAROE ISLANDS">FAROE ISLANDS</option>
+                            <option value="FIJI">FIJI</option>
+                            <option value="FINLAND">FINLAND</option>
+                            <option value="FRANCE">FRANCE</option>
+                            <option value="FRENCH GUIANA">FRENCH GUIANA</option>
+                            <option value="FRENCH POLYNESIA">FRENCH POLYNESIA</option>
+                            <option value="FRENCH SOUTHERN TERRITORIES">FRENCH SOUTHERN TERRITORIES</option>
+                            <option value="GABON">GABON</option>
+                            <option value="GAMBIA">GAMBIA</option>
+                            <option value="GEORGIA">GEORGIA</option>
+                            <option value="GERMANY">GERMANY</option>
+                            <option value="GHANA">GHANA</option>
+                            <option value="GIBRALTAR">GIBRALTAR</option>
+                            <option value="GREAT BRITAIN">GREAT BRITAIN</option>
+                            <option value="GREECE">GREECE</option>
+                            <option value="GREENLAND">GREENLAND</option>
+                            <option value="GRENADA">GRENADA</option>
+                            <option value="GUADELOUPE">GUADELOUPE</option>
+                            <option value="GUAM">GUAM</option>
+                            <option value="GUATEMALA">GUATEMALA</option>
+                            <option value="GUINEA">GUINEA</option>
+                            <option value="GUYANA">GUYANA</option>
+                            <option value="HAITI">HAITI</option>
+                            <option value="HAWAII">HAWAII</option>
+                            <option value="HONDURAS">HONDURAS</option>
+                            <option value="HONG KONG">HONG KONG</option>
+                            <option value="HUNGARY">HUNGARY</option>
+                            <option value="ICELAND">ICELAND</option>
+                            <option value="INDIA">INDIA</option>
+                            <option value="INDONESIA">INDONESIA</option>
+                            <option value="IRAN">IRAN</option>
+                            <option value="IRAQ">IRAQ</option>
+                            <option value="IRELAND">IRELAND</option>
+                            <option value="ISLE OF MAN">ISLE OF MAN</option>
+                            <option value="ISRAEL">ISRAEL</option>
+                            <option value="ITALY">ITALY</option>
+                            <option value="JAMAICA">JAMAICA</option>
+                            <option value="JAPAN">JAPAN</option>
+                            <option value="JORDAN">JORDAN</option>
+                            <option value="KAZAKHSTAN">KAZAKHSTAN</option>
+                            <option value="KENYA">KENYA</option>
+                            <option value="KIRIBATI">KIRIBATI</option>
+                            <option value="KOREA NORTH">KOREA NORTH</option>
+                            <option value="KOREA SOUTH">KOREA SOUTH</option>
+                            <option value="KUWAIT">KUWAIT</option>
+                            <option value="KYRGYZSTAN">KYRGYZSTAN</option>
+                            <option value="LAOS">LAOS</option>
+                            <option value="LATVIA">LATVIA</option>
+                            <option value="LEBANON">LEBANON</option>
+                            <option value="LESOTHO">LESOTHO</option>
+                            <option value="LIBERIA">LIBERIA</option>
+                            <option value="LIBYA">LIBYA</option>
+                            <option value="LIECHTENSTEIN">LIECHTENSTEIN</option>
+                            <option value="LITHUANIA">LITHUANIA</option>
+                            <option value="LUXEMBOURG">LUXEMBOURG</option>
+                            <option value="MACAU">MACAU</option>
+                            <option value="MACEDONIA">MACEDONIA</option>
+                            <option value="MADAGASCAR">MADAGASCAR</option>
+                            <option value="MALAYSIA">MALAYSIA</option>
+                            <option value="MALAWI">MALAWI</option>
+                            <option value="MALDIVES">MALDIVES</option>
+                            <option value="MALI">MALI</option>
+                            <option value="MALTA">MALTA</option>
+                            <option value="MARSHALL ISLANDS">MARSHALL ISLANDS</option>
+                            <option value="MARTINIQUE">MARTINIQUE</option>
+                            <option value="MAURITANIA">MAURITANIA</option>
+                            <option value="MAURITIUS">MAURITIUS</option>
+                            <option value="MAYOTTE">MAYOTTE</option>
+                            <option value="MEXICO">MEXICO</option>
+                            <option value="MIDWAY ISLANDS">MIDWAY ISLANDS</option>
+                            <option value="MOLDOVA">MOLDOVA</option>
+                            <option value="MONACO">MONACO</option>
+                            <option value="MONGOLIA">MONGOLIA</option>
+                            <option value="MONTSERRAT">MONTSERRAT</option>
+                            <option value="MOROCCO">MOROCCO</option>
+                            <option value="MOZAMBIQUE">MOZAMBIQUE</option>
+                            <option value="MYANMAR">MYANMAR</option>
+                            <option value="NAMBIA">NAMBIA</option>
+                            <option value="NAURU">NAURU</option>
+                            <option value="NETHERLANDS">NETHERLANDS</option>
+                            <option value="NEPAL">NEPAL</option>
+                            <option value="NETHERLAND ANTILLES">NETHERLAND ANTILLES</option>
+                            <option value="NETHERLANDS (HOLLAND, EUROPE)">NETHERLANDS (HOLLAND, EUROPE)</option>
+                            <option value="NEVIS">NEVIS</option>
+                            <option value="NEW CALEDONIA">NEW CALEDONIA</option>
+                            <option value="NEW ZEALAND">NEW ZEALAND</option>
+                            <option value="NICARAGUA">NICARAGUA</option>
+                            <option value="NIGER">NIGER</option>
+                            <option value="NIGERIA">NIGERIA</option>
+                            <option value="NIUE">NIUE</option>
+                            <option value="NORFOLK ISLAND">NORFOLK ISLAND</option>
+                            <option value="NORWAY">NORWAY</option>
+                            <option value="OMAN">OMAN</option>
+                            <option value="PAKISTAN">PAKISTAN</option>
+                            <option value="PALAU ISLAND">PALAU ISLAND</option>
+                            <option value="PALESTINE">PALESTINE</option>
+                            <option value="PANAMA">PANAMA</option>
+                            <option value="PAPUA NEW GUINEA">PAPUA NEW GUINEA</option>
+                            <option value="PARAGUAY">PARAGUAY</option>
+                            <option value="PERU">PERU</option>
+                            <option value="PHILIPPINES">PHILIPPINES</option>
+                            <option value="PITCAIRN ISLAND">PITCAIRN ISLAND</option>
+                            <option value="POLAND">POLAND</option>
+                            <option value="PORTUGAL">PORTUGAL</option>
+                            <option value="PUERTO RICO">PUERTO RICO</option>
+                            <option value="QATAR">QATAR</option>
+                            <option value="REPUBLIC OF MONTENEGRO">REPUBLIC OF MONTENEGRO</option>
+                            <option value="REPUBLIC OF SERBIA">REPUBLIC OF SERBIA</option>
+                            <option value="REUNION">REUNION</option>
+                            <option value="ROMANIA">ROMANIA</option>
+                            <option value="RUSSIA">RUSSIA</option>
+                            <option value="RWANDA">RWANDA</option>
+                            <option value="ST BARTHELEMY">ST BARTHELEMY</option>
+                            <option value="ST EUSTATIUS">ST EUSTATIUS</option>
+                            <option value="ST HELENA">ST HELENA</option>
+                            <option value="ST KITTS-NEVIS">ST KITTS-NEVIS</option>
+                            <option value="ST LUCIA">ST LUCIA</option>
+                            <option value="ST MAARTEN">ST MAARTEN</option>
+                            <option value="ST PIERRE & MIQUELON">ST PIERRE & MIQUELON</option>
+                            <option value="ST VINCENT & GRENADINES">ST VINCENT & GRENADINES</option>
+                            <option value="SAIPAN">SAIPAN</option>
+                            <option value="SAMOA">SAMOA</option>
+                            <option value="SAMOA AMERICAN">SAMOA AMERICAN</option>
+                            <option value="SAN MARINO">SAN MARINO</option>
+                            <option value="SAO TOME & PRINCIPE">SAO TOME & PRINCIPE</option>
+                            <option value="SAUDI ARABIA">SAUDI ARABIA</option>
+                            <option value="SENEGAL">SENEGAL</option>
+                            <option value="SERBIA">SERBIA</option>
+                            <option value="SEYCHELLES">SEYCHELLES</option>
+                            <option value="SIERRA LEONE">SIERRA LEONE</option>
+                            <option value="SINGAPORE">SINGAPORE</option>
+                            <option value="SLOVAKIA">SLOVAKIA</option>
+                            <option value="SLOVENIA">SLOVENIA</option>
+                            <option value="SOLOMON ISLANDS">SOLOMON ISLANDS</option>
+                            <option value="SOMALIA">SOMALIA</option>
+                            <option value="SOUTH AFRICA">SOUTH AFRICA</option>
+                            <option value="SPAIN">SPAIN</option>
+                            <option value="SRI LANKA">SRI LANKA</option>
+                            <option value="SUDAN">SUDAN</option>
+                            <option value="SURINAME">SURINAME</option>
+                            <option value="SWAZILAND">SWAZILAND</option>
+                            <option value="SWEDEN">SWEDEN</option>
+                            <option value="SWITZERLAND">SWITZERLAND</option>
+                            <option value="SYRIA">SYRIA</option>
+                            <option value="TAHITI">TAHITI</option>
+                            <option value="TAIWAN">TAIWAN</option>
+                            <option value="TAJIKISTAN">TAJIKISTAN</option>
+                            <option value="TANZANIA">TANZANIA</option>
+                            <option value="THAILAND">THAILAND</option>
+                            <option value="TOGO">TOGO</option>
+                            <option value="TOKELAU">TOKELAU</option>
+                            <option value="TONGA">TONGA</option>
+                            <option value="TRINIDAD & TOBAGO">TRINIDAD & TOBAGO</option>
+                            <option value="TUNISIA">TUNISIA</option>
+                            <option value="TURKEY">TURKEY</option>
+                            <option value="TURKMENISTAN">TURKMENISTAN</option>
+                            <option value="TURKS & CAICOS IS">TURKS & CAICOS IS</option>
+                            <option value="TUVALU">TUVALU</option>
+                            <option value="UGANDA">UGANDA</option>
+                            <option value="UKRAINE">UKRAINE</option>
+                            <option value="UNITED ARAB EMIRATES">UNITED ARAB EMIRATES</option>
+                            <option value="UNITED KINGDOM">UNITED KINGDOM</option>
+                            <option value="UNITED STATES OF AMERICA">UNITED STATES OF AMERICA</option>
+                            <option value="URUGUAY">URUGUAY</option>
+                            <option value="UZBEKISTAN">UZBEKISTAN</option>
+                            <option value="VANUATU">VANUATU</option>
+                            <option value="VATICAN CITY STATE">VATICAN CITY STATE</option>
+                            <option value="VENEZUELA">VENEZUELA</option>
+                            <option value="VIETNAM">VIETNAM</option>
+                            <option value="VIRGIN ISLANDS (BRIT)">VIRGIN ISLANDS (BRIT)</option>
+                            <option value="VIRGIN ISLANDS (USA)">VIRGIN ISLANDS (USA)</option>
+                            <option value="WAKE ISLAND">WAKE ISLAND</option>
+                            <option value="WALLIS & FUTANA IS">WALLIS & FUTANA IS</option>
+                            <option value="YEMEN">YEMEN</option>
+                            <option value="ZAIRE">ZAIRE</option>
+                            <option value="ZAMBIA">ZAMBIA</option>    
+                            <option value="ZIMBABWE">ZIMBABWE</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="portofloading">PORT OF LOADING</label>
+                        <!-- <input type="text" class="form-control" name="portofloading" id="portofloading" required> -->
+                        <select class="form-control" name="portofloading" id="portofloading">
+                            <option value="">SELECT</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="countryofdestination">COUNTRY OF DESTINATION</label>
+                        <!-- <input type="text" class="form-control" id="countryofdestination"> -->
+                        <select class="form-control" title="country" name="countryofdestination" id="countryofdestination" onchange="updateDestination()" required>
+                            <option value="">SELECT</option>
+                            <option value="AFGHANISTAN">AFGHANISTAN</option>
+                            <option value="ALBANIA">ALBANIA</option>
+                            <option value="ALGERIA">ALGERIA</option>
+                            <option value="AMERICAN SAMOA">AMERICAN SAMOA</option>
+                            <option value="ANDORRA">ANDORRA</option>
+                            <option value="ANGOLA">ANGOLA</option>
+                            <option value="ANGUILLA">ANGUILLA</option>
+                            <option value="ANTIGUA & BARBUDA">ANTIGUA & BARBUDA</option>
+                            <option value="ARGENTINA">ARGENTINA</option>
+                            <option value="ARMENIA">ARMENIA</option>
+                            <option value="ARUBA">ARUBA</option>
+                            <option value="AUSTRALIA">AUSTRALIA</option>
+                            <option value="AUSTRIA">AUSTRIA</option>
+                            <option value="AZERBAIJAN">AZERBAIJAN</option>
+                            <option value="BAHAMAS">BAHAMAS</option>
+                            <option value="BAHRAIN">BAHRAIN</option>
+                            <option value="BANGLADESH">BANGLADESH</option>
+                            <option value="BARBADOS">BARBADOS</option>
+                            <option value="BELARUS">BELARUS</option>
+                            <option value="BELGIUM">BELGIUM</option>
+                            <option value="BELIZE">BELIZE</option>
+                            <option value="BENIN">BENIN</option>
+                            <option value="BERMUDA">BERMUDA</option>
+                            <option value="BHUTAN">BHUTAN</option>
+                            <option value="BOLIVIA">BOLIVIA</option>
+                            <option value="BONAIRE">BONAIRE</option>
+                            <option value="BOSNIA & HERZEGOVINA">BOSNIA & HERZEGOVINA</option>
+                            <option value="BOTSWANA">BOTSWANA</option>
+                            <option value="BRAZIL">BRAZIL</option>
+                            <option value="BRITISH INDIAN OCEAN TER">BRITISH INDIAN OCEAN TER</option>
+                            <option value="BRUNEI">BRUNEI</option>
+                            <option value="BULGARIA">BULGARIA</option>
+                            <option value="BURKINA FASO">BURKINA FASO</option>
+                            <option value="BURUNDI">BURUNDI</option>
+                            <option value="CAMBODIA">CAMBODIA</option>
+                            <option value="CAMEROON">CAMEROON</option>
+                            <option value="CANADA">CANADA</option>
+                            <option value="CANARY ISLANDS">CANARY ISLANDS</option>
+                            <option value="CAPE VERDE">CAPE VERDE</option>
+                            <option value="CAYMAN ISLANDS">CAYMAN ISLANDS</option>
+                            <option value="CENTRAL AFRICAN REPUBLIC">CENTRAL AFRICAN REPUBLIC</option>
+                            <option value="CHAD">CHAD</option>
+                            <option value="CHANNEL ISLANDS">CHANNEL ISLANDS</option>
+                            <option value="CHILE">CHILE</option>
+                            <option value="CHINA">CHINA</option>
+                            <option value="CHRISTMAS ISLAND">CHRISTMAS ISLAND</option>
+                            <option value="COCOS ISLAND">COCOS ISLAND</option>
+                            <option value="COLOMBIA">COLOMBIA</option>
+                            <option value="COMOROS">COMOROS</option>
+                            <option value="CONGO">CONGO</option>
+                            <option value="COOK ISLANDS">COOK ISLANDS</option>
+                            <option value="COSTA RICA">COSTA RICA</option>
+                            <option value="COTE D'IVOIRE">COTE D'IVOIRE</option>
+                            <option value="CROATIA">CROATIA</option>
+                            <option value="CUBA">CUBA</option>
+                            <option value="CURACAO">CURACAO</option>
+                            <option value="CYPRUS">CYPRUS</option>
+                            <option value="CZECH REPUBLIC">CZECH REPUBLIC</option>
+                            <option value="DENMARK">DENMARK</option>
+                            <option value="DJIBOUTI">DJIBOUTI</option>
+                            <option value="DOMINICA">DOMINICA</option>
+                            <option value="DOMINICAN REPUBLIC">DOMINICAN REPUBLIC</option>
+                            <option value="EAST TIMOR">EAST TIMOR</option>
+                            <option value="ECUADOR">ECUADOR</option>
+                            <option value="EGYPT">EGYPT</option>
+                            <option value="EL SALVADOR">EL SALVADOR</option>
+                            <option value="EQUATORIAL GUINEA">EQUATORIAL GUINEA</option>
+                            <option value="ERITREA">ERITREA</option>
+                            <option value="ESTONIA">ESTONIA</option>
+                            <option value="ETHIOPIA">ETHIOPIA</option>
+                            <option value="FALKLAND ISLANDS">FALKLAND ISLANDS</option>
+                            <option value="FAROE ISLANDS">FAROE ISLANDS</option>
+                            <option value="FIJI">FIJI</option>
+                            <option value="FINLAND">FINLAND</option>
+                            <option value="FRANCE">FRANCE</option>
+                            <option value="FRENCH GUIANA">FRENCH GUIANA</option>
+                            <option value="FRENCH POLYNESIA">FRENCH POLYNESIA</option>
+                            <option value="FRENCH SOUTHERN TERRITORIES">FRENCH SOUTHERN TERRITORIES</option>
+                            <option value="GABON">GABON</option>
+                            <option value="GAMBIA">GAMBIA</option>
+                            <option value="GEORGIA">GEORGIA</option>
+                            <option value="GERMANY">GERMANY</option>
+                            <option value="GHANA">GHANA</option>
+                            <option value="GIBRALTAR">GIBRALTAR</option>
+                            <option value="GREAT BRITAIN">GREAT BRITAIN</option>
+                            <option value="GREECE">GREECE</option>
+                            <option value="GREENLAND">GREENLAND</option>
+                            <option value="GRENADA">GRENADA</option>
+                            <option value="GUADELOUPE">GUADELOUPE</option>
+                            <option value="GUAM">GUAM</option>
+                            <option value="GUATEMALA">GUATEMALA</option>
+                            <option value="GUINEA">GUINEA</option>
+                            <option value="GUYANA">GUYANA</option>
+                            <option value="HAITI">HAITI</option>
+                            <option value="HAWAII">HAWAII</option>
+                            <option value="HONDURAS">HONDURAS</option>
+                            <option value="HONG KONG">HONG KONG</option>
+                            <option value="HUNGARY">HUNGARY</option>
+                            <option value="ICELAND">ICELAND</option>
+                            <option value="INDIA">INDIA</option>
+                            <option value="INDONESIA">INDONESIA</option>
+                            <option value="IRAN">IRAN</option>
+                            <option value="IRAQ">IRAQ</option>
+                            <option value="IRELAND">IRELAND</option>
+                            <option value="ISLE OF MAN">ISLE OF MAN</option>
+                            <option value="ISRAEL">ISRAEL</option>
+                            <option value="ITALY">ITALY</option>
+                            <option value="JAMAICA">JAMAICA</option>
+                            <option value="JAPAN">JAPAN</option>
+                            <option value="JORDAN">JORDAN</option>
+                            <option value="KAZAKHSTAN">KAZAKHSTAN</option>
+                            <option value="KENYA">KENYA</option>
+                            <option value="KIRIBATI">KIRIBATI</option>
+                            <option value="KOREA NORTH">KOREA NORTH</option>
+                            <option value="KOREA SOUTH">KOREA SOUTH</option>
+                            <option value="KUWAIT">KUWAIT</option>
+                            <option value="KYRGYZSTAN">KYRGYZSTAN</option>
+                            <option value="LAOS">LAOS</option>
+                            <option value="LATVIA">LATVIA</option>
+                            <option value="LEBANON">LEBANON</option>
+                            <option value="LESOTHO">LESOTHO</option>
+                            <option value="LIBERIA">LIBERIA</option>
+                            <option value="LIBYA">LIBYA</option>
+                            <option value="LIECHTENSTEIN">LIECHTENSTEIN</option>
+                            <option value="LITHUANIA">LITHUANIA</option>
+                            <option value="LUXEMBOURG">LUXEMBOURG</option>
+                            <option value="MACAU">MACAU</option>
+                            <option value="MACEDONIA">MACEDONIA</option>
+                            <option value="MADAGASCAR">MADAGASCAR</option>
+                            <option value="MALAYSIA">MALAYSIA</option>
+                            <option value="MALAWI">MALAWI</option>
+                            <option value="MALDIVES">MALDIVES</option>
+                            <option value="MALI">MALI</option>
+                            <option value="MALTA">MALTA</option>
+                            <option value="MARSHALL ISLANDS">MARSHALL ISLANDS</option>
+                            <option value="MARTINIQUE">MARTINIQUE</option>
+                            <option value="MAURITANIA">MAURITANIA</option>
+                            <option value="MAURITIUS">MAURITIUS</option>
+                            <option value="MAYOTTE">MAYOTTE</option>
+                            <option value="MEXICO">MEXICO</option>
+                            <option value="MIDWAY ISLANDS">MIDWAY ISLANDS</option>
+                            <option value="MOLDOVA">MOLDOVA</option>
+                            <option value="MONACO">MONACO</option>
+                            <option value="MONGOLIA">MONGOLIA</option>
+                            <option value="MONTSERRAT">MONTSERRAT</option>
+                            <option value="MOROCCO">MOROCCO</option>
+                            <option value="MOZAMBIQUE">MOZAMBIQUE</option>
+                            <option value="MYANMAR">MYANMAR</option>
+                            <option value="NAMBIA">NAMBIA</option>
+                            <option value="NAURU">NAURU</option>
+                            <option value="NETHERLANDS">NETHERLANDS</option>
+                            <option value="NEPAL">NEPAL</option>
+                            <option value="NETHERLAND ANTILLES">NETHERLAND ANTILLES</option>
+                            <option value="NETHERLANDS (HOLLAND, EUROPE)">NETHERLANDS (HOLLAND, EUROPE)</option>
+                            <option value="NEVIS">NEVIS</option>
+                            <option value="NEW CALEDONIA">NEW CALEDONIA</option>
+                            <option value="NEW ZEALAND">NEW ZEALAND</option>
+                            <option value="NICARAGUA">NICARAGUA</option>
+                            <option value="NIGER">NIGER</option>
+                            <option value="NIGERIA">NIGERIA</option>
+                            <option value="NIUE">NIUE</option>
+                            <option value="NORFOLK ISLAND">NORFOLK ISLAND</option>
+                            <option value="NORWAY">NORWAY</option>
+                            <option value="OMAN">OMAN</option>
+                            <option value="PAKISTAN">PAKISTAN</option>
+                            <option value="PALAU ISLAND">PALAU ISLAND</option>
+                            <option value="PALESTINE">PALESTINE</option>
+                            <option value="PANAMA">PANAMA</option>
+                            <option value="PAPUA NEW GUINEA">PAPUA NEW GUINEA</option>
+                            <option value="PARAGUAY">PARAGUAY</option>
+                            <option value="PERU">PERU</option>
+                            <option value="PHILIPPINES">PHILIPPINES</option>
+                            <option value="PITCAIRN ISLAND">PITCAIRN ISLAND</option>
+                            <option value="POLAND">POLAND</option>
+                            <option value="PORTUGAL">PORTUGAL</option>
+                            <option value="PUERTO RICO">PUERTO RICO</option>
+                            <option value="QATAR">QATAR</option>
+                            <option value="REPUBLIC OF MONTENEGRO">REPUBLIC OF MONTENEGRO</option>
+                            <option value="REPUBLIC OF SERBIA">REPUBLIC OF SERBIA</option>
+                            <option value="REUNION">REUNION</option>
+                            <option value="ROMANIA">ROMANIA</option>
+                            <option value="RUSSIA">RUSSIA</option>
+                            <option value="RWANDA">RWANDA</option>
+                            <option value="ST BARTHELEMY">ST BARTHELEMY</option>
+                            <option value="ST EUSTATIUS">ST EUSTATIUS</option>
+                            <option value="ST HELENA">ST HELENA</option>
+                            <option value="ST KITTS-NEVIS">ST KITTS-NEVIS</option>
+                            <option value="ST LUCIA">ST LUCIA</option>
+                            <option value="ST MAARTEN">ST MAARTEN</option>
+                            <option value="ST PIERRE & MIQUELON">ST PIERRE & MIQUELON</option>
+                            <option value="ST VINCENT & GRENADINES">ST VINCENT & GRENADINES</option>
+                            <option value="SAIPAN">SAIPAN</option>
+                            <option value="SAMOA">SAMOA</option>
+                            <option value="SAMOA AMERICAN">SAMOA AMERICAN</option>
+                            <option value="SAN MARINO">SAN MARINO</option>
+                            <option value="SAO TOME & PRINCIPE">SAO TOME & PRINCIPE</option>
+                            <option value="SAUDI ARABIA">SAUDI ARABIA</option>
+                            <option value="SENEGAL">SENEGAL</option>
+                            <option value="SERBIA">SERBIA</option>
+                            <option value="SEYCHELLES">SEYCHELLES</option>
+                            <option value="SIERRA LEONE">SIERRA LEONE</option>
+                            <option value="SINGAPORE">SINGAPORE</option>
+                            <option value="SLOVAKIA">SLOVAKIA</option>
+                            <option value="SLOVENIA">SLOVENIA</option>
+                            <option value="SOLOMON ISLANDS">SOLOMON ISLANDS</option>
+                            <option value="SOMALIA">SOMALIA</option>
+                            <option value="SOUTH AFRICA">SOUTH AFRICA</option>
+                            <option value="SPAIN">SPAIN</option>
+                            <option value="SRI LANKA">SRI LANKA</option>
+                            <option value="SUDAN">SUDAN</option>
+                            <option value="SURINAME">SURINAME</option>
+                            <option value="SWAZILAND">SWAZILAND</option>
+                            <option value="SWEDEN">SWEDEN</option>
+                            <option value="SWITZERLAND">SWITZERLAND</option>
+                            <option value="SYRIA">SYRIA</option>
+                            <option value="TAHITI">TAHITI</option>
+                            <option value="TAIWAN">TAIWAN</option>
+                            <option value="TAJIKISTAN">TAJIKISTAN</option>
+                            <option value="TANZANIA">TANZANIA</option>
+                            <option value="THAILAND">THAILAND</option>
+                            <option value="TOGO">TOGO</option>
+                            <option value="TOKELAU">TOKELAU</option>
+                            <option value="TONGA">TONGA</option>
+                            <option value="TRINIDAD & TOBAGO">TRINIDAD & TOBAGO</option>
+                            <option value="TUNISIA">TUNISIA</option>
+                            <option value="TURKEY">TURKEY</option>
+                            <option value="TURKMENISTAN">TURKMENISTAN</option>
+                            <option value="TURKS & CAICOS IS">TURKS & CAICOS IS</option>
+                            <option value="TUVALU">TUVALU</option>
+                            <option value="UGANDA">UGANDA</option>
+                            <option value="UKRAINE">UKRAINE</option>
+                            <option value="UNITED ARAB EMIRATES">UNITED ARAB EMIRATES</option>
+                            <option value="UNITED KINGDOM">UNITED KINGDOM</option>
+                            <option value="UNITED STATES OF AMERICA">UNITED STATES OF AMERICA</option>
+                            <option value="URUGUAY">URUGUAY</option>
+                            <option value="UZBEKISTAN">UZBEKISTAN</option>
+                            <option value="VANUATU">VANUATU</option>
+                            <option value="VATICAN CITY STATE">VATICAN CITY STATE</option>
+                            <option value="VENEZUELA">VENEZUELA</option>
+                            <option value="VIETNAM">VIETNAM</option>
+                            <option value="VIRGIN ISLANDS (BRIT)">VIRGIN ISLANDS (BRIT)</option>
+                            <option value="VIRGIN ISLANDS (USA)">VIRGIN ISLANDS (USA)</option>
+                            <option value="WAKE ISLAND">WAKE ISLAND</option>
+                            <option value="WALLIS & FUTANA IS">WALLIS & FUTANA IS</option>
+                            <option value="YEMEN">YEMEN</option>
+                            <option value="ZAIRE">ZAIRE</option>
+                            <option value="ZAMBIA">ZAMBIA</option>    
+                            <option value="ZIMBABWE">ZIMBABWE</option>
+                        </select> 
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="portofdischarge">PORT OF DISCHARGE</label>
+                        <!-- <input type="text" class="form-control" name="portofdischarge" id="portofdischarge" required> -->
+                        <select class="form-control" name="portofdischarge" id="portofdischarge">
+                            <option value="">SELECT</option>
+                        </select>
+                    </div>
+                    <!-- Add more fields here -->
+                </div>
+            </div>
+        </section>
+    <section>
+            <!-- Shipping Containers -->
+            <div class="card">
+                <div class="section-header" data-toggle="collapse" data-target="#shippingContainers">
+                    EQUIPMENTS
+                </div>
+                <div class="card-body collapse" id="shippingContainers">
+                    <div class="form-group">
+                        <label class="form-label" for="containertype">TYPE OF CONTAINERS</label>
+                        <!-- <input type="text" class="form-control" name="containertype" id="containertype" required> -->
+                        <select class="form-control" name="containertype" id="containertype" required>
+                            <option value="">SELECT</option>
+                            <option value="20GP">20GP</option>
+                            <option value="40GP">40GP</option>
+                            <option value="40HC">40HC</option>
+                            <option value="20OT (IN GAUGE)">20OT (IN GAUGE)</option>
+                            <option value="20OT (OUT GAUGE)">20OT (OUT GAUGE)</option>
+                            <option value="40OT (IN GAUGE)">40OT (IN GAUGE)</option>
+                            <option value="40OT (OUT GAUGE)">40OT (OUT GAUGE)</option>
+                            <option value="20FR (IN GAUGE)">20FR (IN GAUGE)</option>
+                            <option value="20FR (OUT GAUGE)">20FR (OUT GAUGE)</option>
+                            <option value="40FR (IN GAUGE)">40FR (IN GAUGE)</option>
+                            <option value="40FR (OUT GAUGE)">40FR (OUT GAUGE)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="containertype1">TYPE OF CONTAINERS 1</label>
+                        <select class="form-control" name="containertype1" id="containertype1">
+                            <option value="">SELECT</option>
+                            <option value="20GP">20GP</option>
+                            <option value="40GP">40GP</option>
+                            <option value="40HC">40HC</option>
+                            <option value="20OT (IN GAUGE)">20OT (IN GAUGE)</option>
+                            <option value="20OT (OUT GAUGE)">20OT (OUT GAUGE)</option>
+                            <option value="40OT (IN GAUGE)">40OT (IN GAUGE)</option>
+                            <option value="40OT (OUT GAUGE)">40OT (OUT GAUGE)</option>
+                            <option value="20FR (IN GAUGE)">20FR (IN GAUGE)</option>
+                            <option value="20FR (OUT GAUGE)">20FR (OUT GAUGE)</option>
+                            <option value="40FR (IN GAUGE)">40FR (IN GAUGE)</option>
+                            <option value="40FR (OUT GAUGE)">40FR (OUT GAUGE)</option>
+                        </select>
+                    </div>          
+                    <div class="form-group">
+                        <label class="form-label" for="containertype2">TYPE OF CONTAINERS 2</label>
+                        <select class="form-control" name="containertype2" id="containertype2">
+                            <option value="">SELECT</option>
+                            <option value="20GP">20GP</option>
+                            <option value="40GP">40GP</option>
+                            <option value="40HC">40HC</option>
+                            <option value="20OT (IN GAUGE)">20OT (IN GAUGE)</option>
+                            <option value="20OT (OUT GAUGE)">20OT (OUT GAUGE)</option>
+                            <option value="40OT (IN GAUGE)">40OT (IN GAUGE)</option>
+                            <option value="40OT (OUT GAUGE)">40OT (OUT GAUGE)</option>
+                            <option value="20FR (IN GAUGE)">20FR (IN GAUGE)</option>
+                            <option value="20FR (OUT GAUGE)">20FR (OUT GAUGE)</option>
+                            <option value="40FR (IN GAUGE)">40FR (IN GAUGE)</option>
+                            <option value="40FR (OUT GAUGE)">40FR (OUT GAUGE)</option>
+                        </select>
+                    </div>      
+                    <div class="form-group">
+                        <label class="form-label" for="noofcontainers">NO OF CONTAINERS</label>
+                        <input type="number" class="form-control" name="noofcontainers" id="noofcontainers" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="containernumbers">CONTAINER NUMBERS</label>
+                        <input type="text" class="form-control" name="containernumbers" id="containernumbers" required>
+                    </div>
+                    <!-- Add more fields here -->
+                </div>
+            </div>
+        </section>
+        <section>
+            <!-- WEIGHT / DIMENSIONS -->
+            <div class="card">
+                <div class="section-header" data-toggle="collapse" data-target="#grschg">
+                    WEIGHT / DIMENSIONS
+                </div>
+                <div class="card-body collapse" id="grschg">
+                    <div class="form-group">
+                        <label class="form-label" for="netwt">NET WT</label>
+                        <input type="text" class="form-control" name="netwt" id="netwt" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="grswt">GRS WT</label>
+                        <input type="text" class="form-control" name="grswt" id="grswt" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="chgwt">CHG WT</label>
+                        <input type="text" class="form-control" name="chgwt" id="chgwt" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="pkgs">NO OF PACKAGES</label>
+                        <input type="number" class="form-control" name="pkgs" id="pkgs" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="packagetype">PACKAGE TYPE</label>
+                        <input type="text" class="form-control" name="packagetype" id="packagetype" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="commodity">COMMODITY</label>
+                        <input type="text" class="form-control" name="commodity" id="commodity" required>
+                    </div>
+                </div>
+            </div>
+        </section>
+    <section>
+            <!-- MBL and HBL -->
+            <div class="card">
+                <div class="section-header" data-toggle="collapse" data-target="#mblHbl">
+                    BL DETAILS
+                </div>
+                <div class="card-body collapse" id="mblHbl">
+                    <div class="form-group">
+                        <label class="form-label" for="mblnumber">MBL NUMBER</label>
+                        <input type="text" class="form-control" name="mblnumber" id="mblnumber" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="hblnumber">HBL NUMBER</label>
+                        <input type="text" class="form-control" name="hblnumber" id="hblnumber" required>
+                    </div>
+                </div>
+            </div>
+        </section>
+    <section>
+            <!-- Name of Shipping Liner -->
+            <div class="card">
+                <div class="section-header" data-toggle="collapse" data-target="#shippingLiner">
+                    NAME OF SHIPPING LINER
+                </div>
+                <div class="card-body collapse" id="shippingLiner">
+                    <div class="form-group">
+                        <label class="form-label" for="shippingliner">NAME OF SHIPPING LINER</label>
+                        <!-- <input type="text" class="form-control" name="shippingliner" id="shippingliner" required> -->
+                        <select class="form-control" title="shippingliner" name="shippingliner" id="shippingliner" required>
+                            <option value="">SELECT</option>
+                            <option value="ANTONG HOLDINGS(QASC)">ANTONG HOLDINGS(QASC)</option>
+                            <option value="ARKAS LINE/EMES">ARKAS LINE/EMES</option>
+                            <option value="CMA CGM">CMA CGM</option>
+                            <option value="COSCO">COSCO</option>
+                            <option value="EMIRATES SHIPPING LINE">EMIRATES SHIPPING LINE</option>
+                            <option value="EVERGREEN">EVERGREEN</option>
+                            <option value="GLOBAL FEEDER SHIPPING">GLOBAL FEEDER SHIPPING</option>
+                            <option value="HAPAG LLOYD">HAPAG LLOYD</option>
+                            <option value="HMM">HMM</option>
+                            <option value="IRISL">IRISL</option>
+                            <option value="KMTC">KMTC</option>
+                            <option value="MAERSK">MAERSK</option>
+                            <option value="MATSON">MATSON</option>
+                            <option value="MEDITERRANEAN SHG CO">MEDITERRANEAN SHG CO</option>
+                            <option value="NINGBO OCEAN SHG">NINGBO OCEAN SHG</option>
+                            <option value="ONE">ONE</option>
+                            <option value="PIL">PIL</option>
+                            <option value="RCL">RCL</option>
+                            <option value="SEA LEAD SHIPPING">SEA LEAD SHIPPING</option>
+                            <option value="SINOKOR MERCHANT MARINE">SINOKOR MERCHANT MARINE</option>
+                            <option value="SITC">SITC</option>
+                            <option value="SM LINE">SM LINE</option>
+                            <option value="SWIRE SHIPPING">SWIRE SHIPPING</option>
+                            <option value="TSL">TSL</option>
+                            <option value="UNI FEEDER">UNI FEEDER</option>
+                            <option value="WAN HAI">WAN HAI</option>
+                            <option value="X-PRESS FEEDERS">X-PRESS FEEDERS</option>
+                            <option value="YML">YML</option>
+                            <option value="ZHONGGU LOGISTICS">ZHONGGU LOGISTICS</option>
+                            <option value="ZIM">ZIM</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="vesselvoyage">VESSEL VOYAGE</label>
+                        <input type="text" class="form-control" name="vesselvoyage" id="vesselvoyage" required>
+                    </div>
+                </div>
+            </div>
+        </section>
+    <section>
+            <!-- 1st Feder Vessel Name -->
+            <div class="card">
+                <div class="section-header" data-toggle="collapse" data-target="#feederVesselName">
+                    1st FEEDER VESSEL
+                </div>
+                <div class="card-body collapse" id="feederVesselName">
+                    <div class="form-group">
+                        <label class="form-label" for="firstfeedername">1st FEEDER VESSEL NAME</label>
+                        <input type="text" class="form-control" name="firstfeedername" id="firstfeedername" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="firstfeederimono">1st FEEDER VESSEL IMO NUMBER</label>
+                        <input type="text" class="form-control" name="firstfeederimono" id="firstfeederimono" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="transhipment1steta">1st TRANSHIPMENT ETA</label>
+                        <input type="date" class="form-control" name="transhipment1steta" id="transhipment1steta" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="transhipment1staetd">1st TRANSHIPMENT ETD</label>
+                        <input type="date" class="form-control" name="transhipment1stetd" id="transhipment1stetd" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="transhipment1stportname">1st TRANSHIPMENT PORT NAME</label>
+                        <input type="text" class="form-control" name="transhipment1stportname" id="transhipment1stportname" required>
+                    </div>
+                </div>
+            </div>
+        </section>
+    <section>
+            <!-- Mother Vessel Name -->
+            <div class="card">
+                <div class="section-header" data-toggle="collapse" data-target="#motherVessel">
+                    MOTHER VESSEL
+                </div>
+                <div class="card-body collapse" id="motherVessel">
+                    <div class="form-group">
+                        <label class="form-label" for="mothervesselname">MOTHER VESSEL NAME</label>
+                        <input type="text" class="form-control" name="mothervesselname" id="mothervesselname" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="mothervesselimono">MOTHER VESSEL IMO NUMBER</label>
+                        <input type="text" class="form-control" name="mothervesselimono" id="mothervesselimono" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="mothervesseleta">MOTHER VESSEL ETA</label>
+                        <input type="date" class="form-control" name="mothervesseleta" id="mothervesseleta" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="mothervesseletd">MOTHER VESSEL ETD</label>
+                        <input type="date" class="form-control" name="mothervesseletd" id="mothervesseletd" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="mothervesselportname">MOTHER VESSEL PORT NAME</label>
+                        <input type="text" class="form-control" name="mothervesselportname" id="mothervesselportname" required>
+                    </div>
+                </div>
+            </div>
+        </section>
+    <section>
+            <!-- 2nd Feder Vessel Name -->
+            <div class="card">
+                <div class="section-header" data-toggle="collapse" data-target="#feederVesselName2nd">
+                    2nd FEEDER VESSEL
+                </div>
+                <div class="card-body collapse" id="feederVesselName2nd">
+                    <div class="form-group">
+                        <label class="form-label" for="secondfeedername">2nd FEEDER VESSEL NAME</label>
+                        <input type="text" class="form-control" name="secondfeedername" id="secondfeedername" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="secondtfeederimono">2nd FEEDER VESSEL IMO NUMBER</label>
+                        <input type="text" class="form-control" name="secondfeederimono" id="secondfeederimono" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="transhipment2ndeta">2nd TRANSHIPMENT ETA</label>
+                        <input type="date" class="form-control" name="transhipment2ndeta" id="transhipment2ndeta" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="transhipment2ndetd">2nd TRANSHIPMENT ETD</label>
+                        <input type="date" class="form-control" name="transhipment2ndetd" id="transhipment2ndetd" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="transhipment2ndportname">2nd TRANSHIPMENT PORT NAME</label>
+                        <input type="text" class="form-control" name="transhipment2ndportname" id="transhipment2ndportname" required>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section>
+            <!-- 2nd Feder Vessel Name -->
+            <div class="card">
+                <div class="section-header" data-toggle="collapse" data-target="#feederVesselName3rd">
+                    3rd FEEDER VESSEL
+                </div>
+                <div class="card-body collapse" id="feederVesselName3rd">
+                    <div class="form-group">
+                        <label class="form-label" for="thirdfeedername">3rd FEEDER VESSEL NAME</label>
+                        <input type="text" class="form-control" name="thirdfeedername" id="thirdfeedername">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="thirdfeederimono">3rd FEEDER VESSEL IMO NUMBER</label>
+                        <input type="text" class="form-control" name="thirdfeederimono" id="thirdfeederimono">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="transhipment3rdeta">3rd TRANSHIPMENT ETA</label>
+                        <input type="date" class="form-control" name="transhipment3rdeta" id="transhipment3rdeta">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="transhipment3rdetd">3rd TRANSHIPMENT ETD</label>
+                        <input type="date" class="form-control" name="transhipment3rdetd" id="transhipment3rdetd">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="transhipment3rdportname">3rd TRANSHIPMENT PORT NAME</label>
+                        <input type="text" class="form-control" name="transhipment3rdportname" id="transhipment3rdportname">
+                    </div>
+                </div>
+            </div>
+        </section>
+    <section>
+            <!-- Prealert / Dtd and Remarks -->
+            <div class="card">
+                <div class="section-header" data-toggle="collapse" data-target="#prealertRemarks">
+                    PREALERT DTD / REMARKS
+                </div>
+                <div class="card-body collapse" id="prealertRemarks">
+                    <div class="form-group">
+                        <label class="form-label" for="prealertdtd">PREALERT DTD</label>
+                        <input type="date" class="form-control" name="prealertdtd" id="prealertdtd" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="remarks">REMARKS</label>
+                        <input type="text" class="form-control" name="remarks" id="remarks" required>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+            <!-- Submit Button -->
+            <button type="submit" id="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+            
+        </form>
+        <footer class="footer">
+            <p>All Rights Reserved &copy; 2023</p>
+        </footer>
+        <h6>BETA VERSION</h6>
+
+    </main>
+
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+
+    <script>
+        // Progress Bar
+        $(document).ready(function () {
+
+            function updateProgress() {
+                const totalFields = $('form#myForm input, form#myForm select').length;
+                const filledFields = $('form#myForm input, form#myForm select').filter(function () {
+                    return $.trim(this.value).length > 0;
+                }).length;
+                const progress = (filledFields / totalFields) * 100;
+                $('.progress-bar').css('width', progress + '%').attr('aria-valuenow', progress).text(Math.round(progress) + '%');
+            }
+
+            // Initialize the progress bar
+            updateProgress();
+
+            // Listen for changes on input fields to update the progress bar
+            $('form#myForm input , form#myForm select').on('input change', function () {
+                updateProgress();
+            });
+            });
+
+
+          
+            const portData = {
+                "AFGHANISTAN": [],
+                "ALBANIA": ["Durres (Durazzo)", "Sarande", "Shengjjin","Vlore (Vlora, Vlone)"],
+                "ALGERIA": ["Algiers", "Annaba", "Arzew","Bejaia","Dellys","Ghazaouet","Mostaganem","Oran","Skikda","Tenes"],
+                "AMERICAN SAMOA": ["Pago Pago"],
+                "ANDORRA": [],
+                "ANGOLA": ["Cabinda", "Lobito", "Luanda","Namibe","Porto Amboim","Soyo"],
+                "ANGUILLA": [],
+                "ANTIGUA & BARBUDA": [],
+                "ARGENTINA": ["Bahia Blanca", "Buenos Aires", "Comodoro Rivadavia","Concepcion del Uruguay","Mar del Plata","Necochea","Puerto Madryn","Rio Gallegos","Rosario","Santa Fe","Ushuaia"],
+                "ARMENIA": [],
+                "ARUBA": ["Oranjestad"],
+                "AUSTRALIA": ["Adelaide", "Brisbane", "Cairns","Darwin","Devonport","Fremantle","Geelong","Hobart","Mackay","Melbourne","Sydney","Townsville"],
+                "AUSTRIA": [],
+                "AZERBAIJAN": ["Baku"],
+                "BAHAMAS": ["Freeport", "Nassau"],
+                "BAHRAIN": ["Mina Salman", "Sitra"],
+                "BANGLADESH": ["Chittagong", "Mongla"],
+                "BARBADOS": ["Bridgetown"],
+                "BELARUS": [],
+                "BELGIUM": ["Antwerp", "Brussels", "Ghent","Liege","Zeebrugge"],
+                "BELIZE": ["Belize City"],
+                "BENIN": ["Cotonou"],
+                "BERMUDA": ["Hamilton", "St Georges"],
+                "BHUTAN": [],
+                "BOLIVIA": [],
+                "BONAIRE": [],
+                "BOSNIA & HERZEGOVINA": [],
+                "BOTSWANA": [],
+                "BRAZIL": ["Belem", "Fortaleza", "Imbituba","Manaus","Paranagua","Porto Alegre","Recife","Rio De Janeiro","Rio Grande","Salvador","Santos","Vitoria"],
+                "BRITISH INDIAN OCEAN TER": [],
+                "BRUNEI": ["Kuala Belait", "Muara"],
+                "BULGARIA": ["Varna"],
+                "BURKINA FASO": [],
+                "BURUNDI": [],
+                "CAMBODIA": ["Kompongsom", "Phnom Penh"],
+                "CAMEROON": ["Douala", "Kribi", "Tiko"],
+                "CANADA": ["Alberni", "Becancour", "Churchill","Fraser River Port","Halifax","Hamilton","Montreal","Nanaimo","Saguenay","Sept Iles (SevenIslands)","St Johns","Sydney","Thunder Bay","Toronto","Trois-Rivieres","Vancouver","Windsor"],
+                "CANARY ISLANDS": ["Las Palmas", "Santa Cruz de Tenerife"],
+                "CAPE VERDE": ["Porto Grande"],
+                "CAYMAN ISLANDS": ["Georgetown, Grand Cayman"],
+                "CENTRAL AFRICAN REPUBLIC": [],
+                "CHAD": [],
+                "CHANNEL ISLANDS": [],
+                "CHILE": ["Antofagasta", "Arica", "Chanaral","Iquique","Puerto Montt","Punta Arenas","San Antonio","San Vicente","Talcahuano","Valparaiso"],
+                "CHINA": ["Dalian", "Fuzhou", "Guangzhou","Haikou","Lianyungang","Nantong","Ningbo","Qingdao","Qinhuangdao","Shanghai","Shantou","Tianjin","Xiamen","Zhanjiang"],
+                "CHRISTMAS ISLAND": [],
+                "COCOS ISLAND": [],
+                "COLOMBIA": ["Barranquilla", "Buenaventura", "Cartagena","Puerto Bolivar","Tumaco","Turbo"],
+                "COMOROS": ["Moroni", "Mutsamudu"],
+                "CONGO": ["Pointe Noire", "Banana", "Boma"],
+                "COOK ISLANDS": [],
+                "COSTA RICA": ["Caldera", "Golfito", "Puntarenas","Quepos"],
+                "COTE D'IVOIRE": ["Abidjan"],
+                "CROATIA": ["Rijeka Bakar", "Zadar", "Dubrovnik","Omisalj","Ploce","Pula","Sibenik","Split"],
+                "CUBA": ["Havana", "Manzanillo", "Matanzas","Nuevitas","Santiago de Cuba"],
+                "CURACAO": [],
+                "CYPRUS": ["Akrotiri", "Famagusta", "Larnaca","Limassol","Paphos","Vassiliko"],
+                "CZECH REPUBLIC": [],
+                "DENMARK": ["Aarhus", "Esbjerg", "Fredericia","Frederikshavn","Grenaa","Odense","Ronne"],
+                "DJIBOUTI": ["Djibouti"],
+                "DOMINICA": ["Portsmouth", "Roseau"],
+                "DOMINICAN REPUBLIC": ["Barahona", "La Romana", "Puerto Plata","Rio Haina","San Pedro de Macoris","Santo Domingo"],
+                "EAST TIMOR": [],
+                "ECUADOR": ["Esmeraldas", "Guayaquil", "La Libertad","Manta","Puerto Bolivar","San Lorenzo"],
+                "EGYPT": ["Alexandria", "Damietta", "Port Said","Suez (Al Suweis)"],
+                "EL SALVADOR": ["Acajutla", "Cutuco"],
+                "EQUATORIAL GUINEA": ["Bata", "Ceiba Marine Terminal", "a Malabo (Rey Malabo)"],
+                "ERITREA": [],
+                "ESTONIA": ["Pärnu", "Tallinn"],
+                "ETHIOPIA": [],
+                "FALKLAND ISLANDS": [],
+                "FAROE ISLANDS": ["Klaksvik", "Torshavn"],
+                "FIJI": ["Labasa", "Lautoka", "Levuka","Savu Savu","Suva"],
+                "FINLAND": ["Hamina", "Helsinki", "Kokkola","Kotka","Loviisa","Oulu","Pori","Rauma","Turku","Uusikaupunki","Vaasa"],
+                "FRANCE": ["Bordeaux", "Boulogne Sur Mer", "Cherbourg","Dunkerque","La Rochelle-Pallice","Le Havre","Marseille","Nantes-St. Nazaire","Paris","Rouen","St Malo","Strasbourg","Toulon"],
+                "FRENCH GUIANA": ["Cayenne"],
+                "FRENCH POLYNESIA": ["Papeete"],
+                "FRENCH SOUTHERN TERRITORIES": [],
+                "GABON": ["Cap Lopez", "Libreville", "Owendo","Port Gentil"],
+                "GAMBIA": ["Banjul"],
+                "GEORGIA": ["Batumi", "Poti", "Sukhumi"],
+                "GERMANY": ["Brake", "Bremen", "Bremerhaven","Duisburg","Dusseldorf","Emden","Hamburg","Karlsruhe","Kiel","Lubeck","Mannheim","Rostock","Wilhelmshavn"],
+                "GHANA": ["Takoradi", "Tema"],
+                "GIBRALTAR": ["Gibraltar"],
+                "GREAT BRITAIN": [],
+                "GREECE": ["Eleusis", "Iraklion (Heraklion)", "Kavala","Patras","Piraeus","Thessaloniki","Volos"],
+                "GREENLAND": ["Holsteinsborg", "Nanortalik", "Narsarsuaq","Nuuk (Godthaab)"],
+                "GRENADA": [],
+                "GUADELOUPE": ["Gustavia", "Pointe-a-Pitre"],
+                "GUAM": ["Apra"],
+                "GUATEMALA": ["Champerico", "Puerto Barrios", "Santo Tomas De Castilla"],
+                "GUINEA": ["Conakry", "Port Kamsar"],
+                "GUINEA-BISSAU":["Bissau"],
+                "GUYANA": ["Georgetown", "New Amsterdam"],
+                "HAITI": ["Port Au Prince"],
+                "HAWAII": [],
+                "HONDURAS": ["La Ceiba", "Puerto Castilla", "Puerto Cortes","San Lorenzo","Tela"],
+                "HONG KONG": ["Hong Kong"],
+                "HUNGARY": [],
+                "ICELAND": ["Akureyri", "Hafnarfjordur", "Isafjordur","Keflavik","Reykjavik","Vestmannaeyjar"],
+                "INDIA": ["Chennai Port","Dahej Port","Dhamra Port","Dighi Port","Ennore","Gangavaram Port","Gopalpur Port","Haldia Port","Hazira Port","JSW Dharamtar Port","JSW Jaigad Port","Jawaharlal Nehru Port","Kakinada Port","Kamarajar Port","Karaikal Port","Kattupalli Port","Kandla Port","Kochi Port","Kolkata Port","Krishnapatnam Port","Mumbai Port","Mundra Port","Mormugao Port","New Mangaluru Port","Tuna Port","Tuticorin","V.O. Chidambaranar Port","Visakhapatnam Port"],
+                "INDONESIA": ["Cilacap, Java", "Cirebon, Java", "Jakarta, Java","Kupang, Timor","Palembang, Sumatra","Semarang, Java","Surabaya, Java","Ujung Pandang"],
+                "IRAN": ["Abadan", "Bandar Abbas", "Bandar Anzali","Bandar Mahshahr","Bushehr","Imam Khomeini","Khorramshahr","Lavan","Sirri Island"],
+                "IRAQ": ["Basra", "Khor al Zubair", "Umm Qasr"],
+                "IRELAND": ["Arklow", "Cork", "Drogheda","Dublin","Foynes","Galway","New Ross","Waterford"],
+                "ISLE OF MAN": [],
+                "ISRAEL": ["Ashdod", "Ashkelon", "Eilat","Hadera","Haifa"],
+                "ITALY": ["Augusta", "Bagnoli", "Bari","Brindisi","Gela","Genoa","La Spezia","Livorno","Messina","Milazzo","Napoli","Palermo","Porto Torres","Ravenna","Sarroch","Savona-Vado","Taranto","Trieste","Venice"],
+                "JAMAICA": ["Kingston", "Montego Bay", "Ocho Rios","Port Antonio","Port Esquivel","Rocky Point"],
+                "JAPAN": ["Akita", "Amagasaki", "Chiba","Hachinohe","Hakodate","Higashiharima","Himeji","Hiroshima","Kawasaki","Kinuura","Kobe","Kushiro","Mizushima","Moji","Nagoya","Osaka","Sakai","Sakata","Shimizu","Tokyo","Tomakomai","Yokohama"],
+                "JORDAN": ["Aqaba"],
+                "KAZAKHSTAN": [],
+                "KENYA": ["Lamu", "Mombasa"],
+                "KIRIBATI": ["Betio"],
+                "KOREA NORTH": ["Chongjin","Haeju", "Nampo","Wonsan"],
+                "KOREA SOUTH": ["Busan", "Chinhae", "Inchon","Masan","Mokpo","Pohang","Tonghae","Ulsan","Yosu"],
+                "KUWAIT": ["Mina al Ahmadi", "Mina Saud", "Shuwaikh"],
+                "KYRGYZSTAN": [],
+                "LAOS": [],
+                "LATVIA": ["Liepaja", "Riga", "Ventspils"],
+                "LEBANON": ["Beirut", "Chekka", "Selaata","Sidon","Tripoli"],
+                "LESOTHO": [],
+                "LIBERIA": ["Buchanan", "Greenville", "Monrovia"],
+                "LIBYA": ["Bingazi", "Derna", "Marsa El Brega","Misurata","Ras Lanuf","Tobruk","Tripoli","Zuara"],
+                "LIECHTENSTEIN": [],
+                "LITHUANIA": ["Klaipeda"],
+                "LUXEMBOURG": [],
+                "MACAU": ["Macau"],
+                "MACEDONIA": [],
+                "MADAGASCAR": ["Majunga", "Toamasina", "Tulear"],
+                "MALAYSIA": ["Bintulu", "Kota Kinabalu", "Kuantan","Kuching","Kudat","Labuan","Lahad Datu","Lumut","Miri","Pasir Gudang","Penang","Port Dickson","Port Klang","Sandakan","Sibu","Tanjung Pelepas","Tawau"],
+                "MALAWI": [],
+                "MALDIVES": [],
+                "MALI": [],
+                "MALTA": ["Valletta"],
+                "MARSHALL ISLANDS": [],
+                "MARTINIQUE": ["Fort de France"],
+                "MAURITANIA": ["Nouadhibou", "Nouakchott"],
+                "MAURITIUS": ["Port Louis"],
+                "MAYOTTE": [],
+                "MEXICO": ["Acapulco", "Coatzacoalcos", "Guaymas","La Paz","Lazaro Cardenas","Manzanillo","Mazatlan","Progreso","Salina Cruz","Tampico","Topolobampo","Tuxpan","Veracruz"],
+                "MIDWAY ISLANDS": ["PortPB", "PortPC", "Port"],
+                "MOLDOVA": [],
+                "MONACO": ["Monaco"],
+                "MONGOLIA": [],
+                "MONTSERRAT": ["Plymouth"],
+                "MOROCCO": ["Agadir", "Casablanca", "El Jadida","Kenitra","Mohammedia","Safi","Tangier"],
+                "MOZAMBIQUE": ["Beira", "Inhambane", "Maputo","Nacala","Pemba","Quelimane"],
+                "MYANMAR": ["Bassein", "Moulmein", "Yangon"],
+                "NAMBIA": ["Luderitz", "Walvis Bay"],
+                "NAURU": ["Nauru Island"],
+                "NETHERLANDS":["Amsterdam", "Delfzijl", "Dordrecht","Eemshaven","Groningen","IJmuiden","Rotterdam","Terneuzen"],
+                "NEPAL": [],
+                "NETHERLAND ANTILLES": ["Kralendijk", "Philipsburg", "Willemstad"],
+                "NETHERLANDS (HOLLAND, EUROPE)": [],
+                "NEVIS": [],
+                "NEW CALEDONIA": ["Noumea", "Thio"],
+                "NEW ZEALAND": ["Auckland", "Otago Harbour", "Tauranga","Wellington"],
+                "NICARAGUA": ["Bluefields", "Corinto", "El Bluff","Puerto Cabezas","Puerto Sandino","San Juan Del Sur"],
+                "NIGER": [],
+                "NIGERIA": ["Calabar", "Lagos", "Onne","Port Harcourt","Sapele","Tin Can Island","Warri"],
+                "NIUE": [],
+                "NORFOLK ISLAND": [],
+                "NORWAY": ["Bergen", "Drammen", "Grenland Harbour","Hammerfest","Harstad","Haugesund","Kristiansand","Larvik","Oslo","Stavanger","Trondheim"],
+                "OMAN": [],
+                "PAKISTAN": ["Karachi", "Muhammad Bin Qasim"],
+                "PALAU ISLAND": [],
+                "PALESTINE": [],
+                "PANAMA": ["Colon", "Cristobal", "Vacamonte"],
+                "PAPUA NEW GUINEA": ["Kieta", "Lae", "Madang","Port Moresby","Rabaul"],
+                "PARAGUAY": [],
+                "PERU": ["Callao", "Chimbote", "Ilo","Matarani","Paita","Salaverry","Talara"],
+                "PHILIPPINES": ["Batangas", "Cagayan de Oro", "Cebu","Davao","Iligan","Iloilo","Jolo","Legaspi","Manila","Puerto Princesa","San Fernando","Subic Bay","Zamboanga"],
+                "PITCAIRN ISLAND": [],
+                "POLAND": ["Gdansk", "Gdynia", "Kolobrzeg","Swinoujscie","Szczecin","Ustka"],
+                "PORTUGAL": ["Aveiro", "Leixoes", "Lisbon","Portimao","Setubal","Viana Do Castelo"],
+                "PUERTO RICO": ["Guanica Harbour", "Guayanilla", "Las Mareas","Ponce","San Juan"],
+                "QATAR": ["Doha", "Halul Island", "Ras Laffan","Umm Said"],
+                "REPUBLIC OF MONTENEGRO": [],
+                "REPUBLIC OF SERBIA": [],
+                "REUNION": ["Port Reunion"],
+                "ROMANIA": ["Braila", "Constantza", "Mangalia","Sulina"],
+                "RUSSIA": ["Kaliningrad", "Kholmsk", "Murmansk","Nakhodka","Novorossiysk","St Petersburg","Tuapse","Vladivostok","Vyborg"],
+                "RWANDA": [],
+                "ST BARTHELEMY": [],
+                "ST EUSTATIUS": [],
+                "ST HELENA": [],
+                "ST KITTS-NEVIS": ["Basseterre"],
+                "ST LUCIA": ["Castries", "Vieux Fort"],
+                "ST MAARTEN": [],
+                "ST PIERRE & MIQUELON": [],
+                "ST VINCENT & GRENADINES": ["Kingstown"],
+                "SAIPAN": [],
+                "SAMOA": ["Apia"],
+                "SAMOA AMERICAN": [],
+                "SAN MARINO": [],
+                "SAO TOME & PRINCIPE": ["Santo Antonio", "Sao Tome"],
+                "SAUDI ARABIA": ["Dammam", "Dhuba", "Gizan","Jeddah","Jubail","Rabigh","Ras al Mishab","Ras Tanura","Yanbu"],
+                "SENEGAL": ["Dakar"],
+                "SERBIA": [],
+                "SEYCHELLES": ["Port Victoria"],
+                "SIERRA LEONE": ["Freetown", "Pepel"],
+                "SINGAPORE": ["Singapore"],
+                "SLOVAKIA": [],
+                "SLOVENIA": ["Izola", "Koper", "Piran"],
+                "SOLOMON ISLANDS": ["Honiara", "Noro", "Viru Harbour","Yandina"],
+                "SOMALIA": ["Berbera", "Kismayu", "Merca","Mogadishu"],
+                "SOUTH AFRICA": ["Cape Town", "Durban", "Mossel Bay","Port Elizabeth","Richards Bay","Saldanha Bay"],
+                "SPAIN": ["Aviles", "Barcelona", "Bilbao","Cadiz","Cartagena","Castellon","Ceuta","Huelva","Malaga","Pasajes","Santander","Tarragona","Valencia","Vigo"],
+                "SRI LANKA": ["Colombo", "Jaffna", "Trincomalee"],
+                "SUDAN": ["Port Sudan"],
+                "SURINAME": ["Moengo", "Nieuw Nickerie", "Paramaribo","Paranam","Wageningen"],
+                "SWAZILAND": [],
+                "SWEDEN": ["Gavle", "Gothenburg", "Halmstad","Kalmar","Karlshamn","Malmo","Solvesborg","Stockholm","Sundsvall"],
+                "SWITZERLAND": ["Basel"],
+                "SYRIA": ["Baniyas"],
+                "TAHITI": [],
+                "TAIWAN": ["Hualien", "Kaohsiung", "Kaohsiung","Keelung","Suao","Taichung"],
+                "TAJIKISTAN": [],
+                "TANZANIA": ["Dar Es Salaam", "Kilwa Masoko", "Lindi","Mtwara","Pangani","Tanga"],
+                "THAILAND": ["Bangkok", "Laem Chabang", "Pattani","Phuket","Sattahip","Songkhla","Sriracha"],
+                "TOGO": ["Kpeme", "Lome"],
+                "TOKELAU": [],
+                "TONGA": ["Neiafu", "Nukualofa", "Pangai"],
+                "TRINIDAD & TOBAGO": ["Point Fortin", "Point Lisas", "Pointe a Pierre","Scarborough","Spain","Tembladora"],
+                "TUNISIA": ["Bizerte", "Gabes", "La Goulette","Sfax","Sousse","Tunis"],
+                "TURKEY": ["Derince", "Dikili", "Gemlik","Hopa","Iskenderun","Istanbul","Trabzon"],
+                "TURKMENISTAN": [],
+                "TURKS & CAICOS IS": ["Grand Turk Island", "Providenciales"],
+                "TUVALU": ["Funafuti"],
+                "UGANDA": [],
+                "UKRAINE": ["Berdyansk","Kherson","Odessa","Reni","Sevastopol"],
+                "UNITED ARAB EMIRATES": ["Ajman","Das Island","Dubai","Fujairah","Fujairah","Khor Fakkan","Mina Saqr","Mina Zayed"],
+                "UNITED KINGDOM": ["Aberdeen", "Belfast", "Bristol","Dover","Falmouth","Felixstowe","Glasgow","Grangemouth","Hull","Leith","Liverpool","London","Manchester","Peterhead Bay","Plymouth","Portsmouth","Scapa Flow","Southampton","Sullom Voe","Teesport","Thamesport","Tyne"],
+                "UNITED STATES OF AMERICA": ["Anacortes", "Ashtabula", "Baltimore","Baton Rouge","Beaumont","Boston","Charleston","Chicago","Cleveland","Corpus Christi","Detroit","Duluth-Superior","Freeport","Hampton Roads","Honolulu","Houston","Huntington - Tri-State","Jacksonville","Lake Charles","Long Beach","Los Angeles","Manatee","Memphis","Miami","Mobile","New Orleans","New York","New Jersey","Oakland","Pascagoula","Philadelphia","Pittsburgh","Plaquemines","Port Arthur","Port Everglades","Portland(Maine)","Portland (Oregon)","Richmond (CA)","Richmond (VA)","Savannah","Seattle","South Louisiana","Tacoma","Tampa","Texas City","Valdez","Wilmington (DE)","Wilmington (NC)","Yakutat"],
+                "URUGUAY": ["Fray Bentos", "Montevideo", "Nueva Palmira","Paysandu"],
+                "UZBEKISTAN": [],
+                "VANUATU": ["Port Vila", "Santo"],
+                "VATICAN CITY STATE": [],
+                "VENEZUELA": ["Bajo Grande Refinery", "Cumana", "La Guaira","La Salina","Maracaibo","Matanzas","Palua","Puerto Cabello","Puerto La Cruz","Punta Cardon"],
+                "VIETNAM": ["Danang", "Haiphong", "Ho Chi Minh City","Hon Gay","Nha Trang"],
+                "VIRGIN ISLANDS (BRIT)": [],
+                "VIRGIN ISLANDS (USA)": ["Charlotte Amalie", "Christiansted", "Limetree Bay"],
+                "WAKE ISLAND": [],
+                "WALLIS & FUTUNA IS": [],
+                "YEMEN": ["Aden", "Hodeidah", "Mokha","Mukalla"],
+                "ZAIRE": [],
+                "ZAMBIA": [],
+                "ZIMBABWE": []
+            };
+
+
+
+            function updateOrigin() {
+                const countryOforigin = document.getElementById("countryoforigin");
+                const portOfloading = document.getElementById("portofloading");
+
+                // Get the selected country
+                const selectedCountry = countryOforigin.value;
+
+                // console.log("Selected Country:", selectedCountry);
+
+                // Clear existing options in the port dropdown
+                portOfloading.innerHTML = '<option value="">SELECT</option>';
+
+                // If a country is selected, populate ports based on the selected country
+                if (selectedCountry) {
+                    const ports = portData[selectedCountry.toUpperCase()] || [];
+                    for (const port of ports) {
+                        const option = document.createElement("option");
+                        option.value = port;
+                        option.textContent = port;
+                        portOfloading.appendChild(option);
+                    }
+                }
+            }
+
+            function updateDestination() {
+                const countryOfdestination = document.getElementById("countryofdestination");
+                const portOfdischarge = document.getElementById("portofdischarge");
+
+                // Get the selected country
+                const selectedCountry = countryOfdestination.value;
+
+                // console.log("Selected Country:", selectedCountry);
+
+                // Clear existing options in the port dropdown
+                portOfdischarge.innerHTML = '<option value="">SELECT</option>';
+
+                // If a country is selected, populate ports based on the selected country
+                if (selectedCountry) {
+                    const ports = portData[selectedCountry.toUpperCase()] || [];
+                    for (const port of ports) {
+                        const option = document.createElement("option");
+                        option.value = port;
+                        option.textContent = port;
+                        portOfdischarge.appendChild(option);
+                    }
+                }
+            }
+
+    </script>
+
+</body>
+</html>

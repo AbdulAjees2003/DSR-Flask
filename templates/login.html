@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>Login Page</title>
+    <!-- Bootstrap Design -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    
+    <!-- Add this line in the head section -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
+    <link rel="icon" href="{{ url_for('static',filename='images/Favicon.png')}}" type="image/x-icon">
+    <!-- <link href="{{ url_for('static',filename='css/login.css') }}" rel="stylesheet"> -->
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+
+        /* html, body {
+            margin: 0;
+            padding: 0;
+            overflow-y: hidden; /* Hide vertical scrollbar *
+        } */
+        body {
+            background-image: url("{{ url_for('static',filename='images/Transport4.jpg')}}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 100vh;
+            width: 100%;
+            background-position:center; 
+        }
+
+       /*  *, *::before, *::after {
+            box-sizing: border-box;
+        } */
+
+
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+
+        nav {
+            width: 100%;
+            padding: 10px 10px;
+            display: flex;
+            justify-content: right;
+            /* height: 120px; */
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            cursor: pointer;
+            background-color: transparent;
+            /* backdrop-filter: blur(15px); */
+            /* border: 1px solid red; */
+            /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.20); */
+            padding: 5px;
+        }
+
+        .content {
+            background-color: transparent;
+            border-radius: 15px;
+            border: 1px solid #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            padding: 0px 20px;
+            backdrop-filter: blur(10px);
+            margin-top: 70px;
+            animation: slideBackground 3s linear infinite;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+            font-size: 20px;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            width: 300px;
+            background-color: rgb(0, 9, 136);
+            border-radius: 5px;
+            height: 40px;
+            padding: 8px 0px;
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            font-size: 20px;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            margin-top: 20px;
+        }
+
+        input {
+            width: 300px;
+            height: 40px;
+            padding: 0px 10px;
+            border: 1px solid black;
+            border-radius: 5px;
+            outline: none;
+            margin-top: 10px;
+        }
+
+        .login {
+            width: 300px;
+            height: 40px;
+            background-color: rgb(0, 9, 136);
+            border-radius: 5px;
+            color: #fff;
+            outline: none;
+            border: none;
+            font-size: 20px;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .login:hover {
+            background-color: rgb(233, 0, 0);
+            outline: none;
+            border: none;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <h6>BETA VERSION</h6>
+            <img src="{{ url_for('static',filename='images/Favicon.png')}}" class="logo" alt="Img Not Available">
+        </nav>
+    </header>
+    <main>
+        <div class="container">
+            <div class="content">
+                <h1>LOGIN PAGE</h1>
+                <form id="loginForm" method="post" action="{{ url_for('main_bp.Login') }}">
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for message in messages %}
+                            <div class="alert alert-warning alert-dismissible" role="alert">
+                                {{message}}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <!-- <div class="alert alert-warning" role="alert">
+                                {{message}}
+                            </div> -->
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    <div class="form-group">
+                        <label for="emailInput">E-mail:</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="E-mail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordInput">Password:</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary login" id="loginBtn">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bcryptjs/2.4.3/bcrypt.min.js" defer></script> -->
+    <!-- <script src="script.js"></script> -->
+    <!-- Bootstrap Javascript -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+    
+</body>
+</html>

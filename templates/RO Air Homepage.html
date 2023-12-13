@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static',filename='images/Favicon.png') }}" type="image/x-icon">
+    <!-- Bootstrap Design -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <!-- Bootstrap Icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Bootstrap Javascript -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+
+
+    <title>Air Home Page</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        .container-fluid{
+            margin-top: 120px;
+        }
+        .table{
+            border: 1px solid black;
+        }
+        /* .thead tr th{
+            padding: 20px 50px;
+            vertical-align: middle; 
+            text-wrap: nowrap;
+            border: 1px solid black;
+            font-size: 15px;
+        }
+        .tbody tr td{
+            padding: 10px 60px;
+            vertical-align: middle; 
+            border: 1px solid black;
+            font-size: 15px;
+        } */
+        .thead th{
+            padding: 20px 50px;
+            /* text-wrap: nowrap; */
+            white-space: nowrap;
+            background-color: rgb(105, 165, 255);
+        }
+        .thead tr th{
+            vertical-align:middle;
+            border: 1px solid black;
+            font-size: 15px;
+        }
+        .tbody tr{
+            /* text-wrap: nowrap; */
+            white-space: nowrap;
+        }
+        .tbody tr td{
+            vertical-align: middle; 
+            border: 1px solid black;
+            font-size: 15px;
+            padding: 0px 5px;
+        }
+        .custom-form{
+            max-width: 800px;
+        }
+        /* input[type="number"]{
+            -moz-appearance: textfield;
+        } */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button{
+            -webkit-appearance: none;
+        }
+    </style>
+</head>
+<body>
+    <header class="fixed-top bg-light">
+        <a class="navbar-brand" href="#">
+            <img src="{{url_for('static',filename='images/Logo.png')}}" width="320" height="80" alt="Company Logo">
+            <a class="btn btn-danger btn-lg float-right mt-3 mr-3" onclick="return confirm('Time to say goodbye? Confirm your logout!')" title="logout" href="{{ url_for('main_bp.logout') }}" role="button"><i class="bi bi-box-arrow-left"></i></a>
+        </a>
+    </header>
+
+    <div class="container-fluid">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-success alert-dismissable" role="alert">
+                    {{message}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <table id="example" class="table text-center">
+            <thead class="thead text-center">
+                <tr class="text-uppercase">
+                    <th>SNO</th>
+                    <th>TSV BOOKING NO</th>
+                    <th>PO NUMBER</th>
+                    <th>SUPPLIER NAME</th>
+                    <th>CONSIGNEE</th>
+                    <th>BOOKING RECEIVE DDATE</th>
+                    <th>BKG DATE</th>
+                    <th>CARGO READINESS</th>
+                    <th>PICKUP DATE</th>
+                    <th>WAREHOUSE RCVD</th>
+                    <th>COUNTRY OF ORIGIN</th>
+                    <th>PORT OF LOADING</th>
+                    <th>COUNTRY OF DESTINATION</th>
+                    <th>PORT OF DISCHARGE</th>
+                    <th>TERMS</th>
+                    <th>HAWB NO</th>
+                    <th>MAWB NO</th>
+                    <th>NET WT</th>
+                    <th>GRS WT</th>
+                    <th>CHG WT</th>
+                    <th>PKGS</th>
+                    <th>PACKAGE TYPE</th>
+                    <th>COMMODITY</th>
+                    <th>FLT DETAILS1</th>
+                    <th>FLT DETAILS2</th>
+                    <th>FLT DETAILS3</th>
+                    <th>ETD</th>
+                    <th>ETA</th>
+                    <th>REVISED ETD</th>
+                    <th>REVISED ETA</th>
+                    <th>PREALERT DTD</th>
+                    <th>REMARKS</th>
+                </tr>
+            </thead>
+            <tbody class="tbody">
+                {% for airinfo in airinformation %}
+                <tr class="text-uppercase">
+                    <td>{{ airinfo.sno }}</td>
+                    <td>{{ airinfo.tsvbookingno }}</td>
+                    <td>{{ airinfo.ponumber }}</td>
+                    <td>{{ airinfo.suppliername }}</td>
+                    <td>{{ airinfo.consignee }}</td>
+                    <td>{{ airinfo.bookingreceiveddate.strftime('%d-%m-%Y') }}</td>
+                    <td>{{ airinfo.bkgdate.strftime('%d-%m-%Y') }}</td>
+                    <td>{{ airinfo.cargoreadiness.strftime('%d-%m-%Y') }}</td>
+                    <td>{{ airinfo.pickupdate.strftime('%d-%m-%Y') }}</td>
+                    <td>{{ airinfo.warehousercvd.strftime('%d-%m-%Y') }}</td>
+                    <td>{{ airinfo.countryoforigin }}</td>
+                    <td>{{ airinfo.portofloading }}</td>
+                    <td>{{ airinfo.countryofdestination}}</td>
+                    <td>{{ airinfo.portofdischarge }}</td>
+                    <td>{{ airinfo.terms }}</td>
+                    <td>{{ airinfo.hawbno }}</td>
+                    <td>{{ airinfo.mawbno }}</td>
+                    <td>{{ airinfo.netwt }}</td>
+                    <td>{{ airinfo.grswt }}</td>
+                    <td>{{ airinfo.chgwt }}</td>
+                    <td>{{ airinfo.pkgs }}</td>
+                    <td>{{ airinfo.packagetype }}</td>
+                    <td>{{ airinfo.commodity }}</td>
+                    <td>{{ airinfo.flight1 }}</td>
+                    <td>{{ airinfo.flight2 }}</td>
+                    <td>{{ airinfo.flight3 }}</td>
+                    <td>{{ airinfo.etd.strftime('%d-%m-%Y') }}</td>
+                    <td>{{ airinfo.eta.strftime('%d-%m-%Y') }}</td>
+                    <td>{{ airinfo.revisedetd.strftime('%d-%m-%Y') }}</td>
+                    <td>{{ airinfo.revisedeta.strftime('%d-%m-%Y') }}</td>
+                    <td>{{ airinfo.prealertdtd.strftime('%d-%m-%Y') }}</td>
+                    <td>{{ airinfo.remarks }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table> 
+        <h6>BETA VERSION</h6>
+    </div>
+
+
+        <!-- DataTables JavaScript jQuery -->
+        <!-- <script src="https://code.jquery.com/jquery-3.7.0.js"></script> -->
+
+        <!-- DataTables JavaScript -->
+        <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+
+        <script>
+            // $(document).ready(function() {
+            //     $('#example').DataTable();
+            // });
+
+            // Data Table Function
+            $(document).ready(function() {
+                $('#example').DataTable({
+                    // "columns": "auto"
+                    // "columns": ["auto"]
+                });
+            });
+        </script>
+</body>
+</html>

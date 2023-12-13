@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choosing Shipment Type</title>
+    <!-- Bootstrap Design -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <!-- Bootstrap Icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="icon" href="{{ url_for('static',filename='images/Favicon.png') }}" type="image/x-icon">
+</head>
+<body>
+    <div class="container-fluid h-100">
+        <h6>BETA VERSION</h6> 
+        <header class="d-flex justify-content-between align-items-center p-3">
+            <img src="{{ url_for('static',filename='images/Logo.png') }}" alt="Company Logo" class="img-fluid" style="width:280px;">
+            <a class="btn btn-danger btn-lg float-right" onclick="return confirm('Time to say goodbye? Confirm your logout!')" title="logout" href="{{ url_for('main_bp.logout') }}" role="button"><i class="bi bi-box-arrow-left"></i></a>
+        </header>
+        <main class="d-flex flex-column align-items-center justify-content-center h-100">
+            <h1 class="mb-5">TYPES OF SHIPMENT</h1>
+            <div class="btn-group-vertical">
+                <a href="{{ url_for('main_bp.air') }}" class="btn btn-primary mb-3 btn-lg" role="button">Air Transport</a>
+                <a href="{{ url_for('main_bp.sea') }}" class="btn btn-primary btn-lg" role="button">Sea Transport</a>
+                <!-- <a href="#" class="btn btn-danger btn-lg mt-3" role="button">Info</a> -->
+            </div>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,122 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-y: hidden; /* Hide vertical scrollbar */
+}
+body {
+    background-image: url("{{ url_for('static',filename='images/Transport4.jpg')}}");
+    /* background-size: cover; */
+    /* background-size: 1500px; */
+    background-repeat: no-repeat;
+    background-position:center; 
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* background-image: url('transport4.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center; */
+    border-radius: 50px;
+}
+
+
+nav {
+    width: 100%;
+    padding: 10px 10px;
+    display: flex;
+    justify-content: right;
+    height: 120px;
+}
+
+.logo {
+    width: 110px;
+    height: 110px;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: transparent;
+    /* backdrop-filter: blur(15px); */
+     /* border: 1px solid red; */
+    /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.20); */
+    padding: 5px;
+}
+
+.content {
+    background-color: transparent;
+    border-radius: 15px;
+    border: 1px solid #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    margin-top: -120px;
+    padding: 0px 20px;
+    backdrop-filter: blur(10px);
+    animation: slideBackground 3s linear infinite;
+}
+
+h1 {
+    text-align: center;
+    color: #fff;
+    font-size: 20px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    width: 300px;
+    background-color: rgb(0, 9, 136);
+    border-radius: 5px;
+    height: 40px;
+    padding: 8px 0px;
+    margin-top: 20px;
+}
+
+.form-group {
+    margin-top: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    font-size: 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-top: 20px;
+}
+
+input {
+    width: 300px;
+    height: 40px;
+    padding: 0px 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    outline: none;
+    margin-top: 10px;
+}
+
+button {
+    width: 300px;
+    height: 40px;
+    background-color: rgb(0, 9, 136);
+    border-radius: 5px;
+    color: #fff;
+    outline: none;
+    border: none;
+    font-size: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+button:hover {
+    background-color: rgb(233, 0, 0);
+}
